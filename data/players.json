@@ -1,0 +1,20 @@
+[
+  { "id": 1, "name": "Lucas Ferrand", "club": "Club Alpha", "league": "Ligue Démo", "nation": "France", "rating": 84, "version": "Or rare", "price": 1500 },
+  { "id": 2, "name": "Marco Bellini", "club": "Club Alpha", "league": "Ligue Démo", "nation": "Italie", "rating": 82, "version": "Or rare", "price": 900 },
+  { "id": 3, "name": "Tom Vasseur", "club": "Club Alpha", "league": "Ligue Démo", "nation": "France", "rating": 79, "version": "Or", "price": 300 },
+  { "id": 4, "name": "Diego Ramos", "club": "Club Alpha", "league": "Ligue Démo", "nation": "Espagne", "rating": 86, "version": "Or rare", "price": 4500 },
+  { "id": 5, "name": "Jonas Weber", "club": "Club Alpha", "league": "Ligue Démo", "nation": "Allemagne", "rating": 77, "version": "Or", "price": 250 },
+  { "id": 6, "name": "Karim Haddad", "club": "Club Alpha", "league": "Ligue Démo", "nation": "Maroc", "rating": 89, "version": "Or rare", "price": 21000 },
+
+  { "id": 7, "name": "Nils Andersen", "club": "Club Bravo", "league": "Ligue Démo", "nation": "Danemark", "rating": 83, "version": "Or rare", "price": 1200 },
+  { "id": 8, "name": "Pedro Costa", "club": "Club Bravo", "league": "Ligue Démo", "nation": "Portugal", "rating": 80, "version": "Or", "price": 400 },
+  { "id": 9, "name": "Samuel Okafor", "club": "Club Bravo", "league": "Ligue Démo", "nation": "Nigeria", "rating": 85, "version": "Or rare", "price": 3200 },
+  { "id": 10, "name": "Hugo Martin", "club": "Club Bravo", "league": "Ligue Démo", "nation": "France", "rating": 78, "version": "Or", "price": 200 },
+  { "id": 11, "name": "Ivan Petrov", "club": "Club Bravo", "league": "Ligue Démo", "nation": "Croatie", "rating": 81, "version": "Or rare", "price": 700 },
+  { "id": 12, "name": "Leo Schmidt", "club": "Club Bravo", "league": "Ligue Démo", "nation": "Allemagne", "rating": 87, "version": "Or rare", "price": 9500 },
+
+  { "id": 13, "name": "Alain Mercier", "club": "Club Alpha", "league": "Ligue Démo", "nation": "France", "rating": 88, "version": "Héros démo", "price": 15000 },
+  { "id": 14, "name": "Bruno Silva", "club": "Club Bravo", "league": "Ligue Démo", "nation": "Brésil", "rating": 89, "version": "Héros démo", "price": 32000 },
+  { "id": 15, "name": "Erik Larsen", "club": "Club Alpha", "league": "Ligue Démo", "nation": "Norvège", "rating": 87, "version": "Héros démo", "price": 11000 },
+  { "id": 16, "name": "Yann Le Gall", "club": "Club Bravo", "league": "Ligue Démo", "nation": "France", "rating": 90, "version": "Héros démo", "price": 48000 }
+]

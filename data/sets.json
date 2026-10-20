@@ -1,0 +1,52 @@
+[
+  {
+    "id": "club-alpha",
+    "name": "Club Alpha",
+    "type": "club",
+    "playerIds": [1, 2, 3, 4, 5, 6],
+    "tiers": [
+      { "name": "D", "required": 2, "tokens": 1 },
+      { "name": "C", "required": 3, "tokens": 2 },
+      { "name": "B", "required": 4, "tokens": 3 },
+      { "name": "A", "required": 5, "tokens": 5 },
+      { "name": "S", "required": 6, "tokens": 8 }
+    ]
+  },
+  {
+    "id": "club-bravo",
+    "name": "Club Bravo",
+    "type": "club",
+    "playerIds": [7, 8, 9, 10, 11, 12],
+    "tiers": [
+      { "name": "D", "required": 2, "tokens": 1 },
+      { "name": "C", "required": 3, "tokens": 2 },
+      { "name": "B", "required": 4, "tokens": 3 },
+      { "name": "A", "required": 5, "tokens": 5 },
+      { "name": "S", "required": 6, "tokens": 8 }
+    ]
+  },
+  {
+    "id": "ligue-demo",
+    "name": "Ligue Démo",
+    "type": "league",
+    "playerIds": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+    "tiers": [
+      { "name": "D", "required": 3, "tokens": 1 },
+      { "name": "C", "required": 5, "tokens": 2 },
+      { "name": "B", "required": 7, "tokens": 4 },
+      { "name": "A", "required": 9, "tokens": 6 },
+      { "name": "S", "required": 12, "tokens": 10 }
+    ]
+  },
+  {
+    "id": "heros-demo",
+    "name": "Héros démo",
+    "type": "special",
+    "playerIds": [13, 14, 15, 16],
+    "tiers": [
+      { "name": "D", "required": 1, "tokens": 2 },
+      { "name": "B", "required": 3, "tokens": 6 },
+      { "name": "S", "required": 4, "tokens": 12 }
+    ]
+  }
+]
