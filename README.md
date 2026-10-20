@@ -1,36 +1,45 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Album FC 27 · Planificateur
 
-## Getting Started
+Site perso pour décider quels sets de l'album (Galerie) d'EA FC 27 Ultimate Team
+compléter pour gagner le plus de jetons avec un budget en crédits.
 
-First, run the development server:
+On colle son club (liste d'ids ou CSV), et le site affiche pour chaque set :
+joueurs récupérés / total, joueurs manquants, crédits nécessaires par palier,
+taxe de 5 %, jetons gagnables et un verdict de rentabilité (crédits par jeton).
+
+> Projet indépendant, sans lien avec EA. Aucune image ni donnée officielle :
+> les données de `data/` sont des exemples inventés.
+
+## Stack
+
+- [Next.js](https://nextjs.org) (App Router) + TypeScript
+- Tailwind CSS
+- À venir : Supabase (base de données + connexion par e-mail), hébergement Vercel
+
+## Lancer le projet
+
+Prérequis : [Node.js](https://nodejs.org) 20 ou plus.
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Puis ouvrir http://localhost:3000. Sous Windows, on peut aussi double-cliquer sur `lancer.bat`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Organisation du code
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Dossier / fichier | Rôle |
+|---|---|
+| `data/` | Joueurs, sets et règles de l'album en JSON (format décrit dans `data/README.md`) |
+| `lib/club.ts` | Lecture du club collé (ids ou CSV) |
+| `lib/album.ts` | Calcul du coût, de la taxe et des jetons de chaque palier |
+| `app/page.tsx` | Page d'accueil (charge les données) |
+| `app/components/` | Composants d'affichage (zone d'import, carte d'un set) |
 
-## Learn More
+## Feuille de route
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- [x] **Étape 1** — Prototype local : import du club et analyse de chaque set
+- [ ] **Étape 2** — Planificateur : meilleurs paliers à faire pour un budget (sac à dos)
+- [ ] **Étape 3** — Comptes et base de données (Supabase)
+- [ ] **Étape 4** — Mise en ligne sur Vercel
