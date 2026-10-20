@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState } from "react";
 import { analyzeSet } from "@/lib/album";
 import { parseClub } from "@/lib/club";
 import type { AlbumSet, Player, Rules, ScoreConfig } from "@/lib/types";
+import Planner from "./Planner";
 import SetCard from "./SetCard";
 import { formatCredits } from "./format";
 
@@ -111,6 +112,8 @@ export default function ClubAnalyzer({ players, sets, config, rules }: Props) {
           </p>
         )}
       </section>
+
+      <Planner club={club} players={players} sets={sets} config={config} rules={rules} />
 
       <section>
         <div className="mb-2 flex flex-wrap items-baseline justify-between gap-2">
