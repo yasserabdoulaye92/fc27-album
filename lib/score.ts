@@ -26,62 +26,115 @@ export type LineupScore = {
   tags: TagResult[]; // seulement les tags remplis
 };
 
+// Les scores déjà calculés, pour ne pas refaire le calcul à chaque fois
+// (le planificateur évalue des milliers d'équipes, ça va beaucoup plus vite).
+const scoreCache = new WeakMap<ScoreConfig, WeakMap<Player, number>>();
+
 // Score d'une carte seule : barème de sa note × multiplicateur de sa version
 export function itemScore(player: Player, config: ScoreConfig): number {
-  const base = config.ratingScores.find((r) => player.rating >= r.min)?.score ?? 0;
-  const multiplier = config.versionMultipliers[player.version] ?? 1;
-  return Math.round(base * multiplier);
+  let cache = scoreCache.get(config);
+  if (!cache) {
+    cache = new WeakMap();
+    scoreCache.set(config, cache);
+  }
+  let score = cache.get(player);
+  if (score === undefined) {
+    const base = config.ratingScores.find((r) => player.rating >= r.min)?.score ?? 0;
+    const multiplier = config.versionMultipliers[player.version] ?? 1;
+    score = Math.round(base * multiplier);
+    cache.set(player, score);
+  }
+  return score;
 }
 
 export function scoreLineup(cards: Card[], config: ScoreConfig): LineupScore {
-  const base = sum(cards.map((c) => itemScore(c.player, config)));
+  let base = 0;
+  for (const card of cards) base += itemScore(card.player, config);
 
   const tags: TagResult[] = [];
+  let bonus = 0;
   for (const tag of config.tags) {
-    const matching = matchingCards(cards, tag.match);
+    const { count, score } = matchingCards(cards, tag.match, config);
     // Le pourcentage du plus haut palier de tag atteint
     let rate = 0;
     for (const t of tag.tiers) {
-      if (matching.length >= t.min) rate = t.bonus;
+      if (count >= t.min) rate = t.bonus;
     }
     if (rate === 0) continue;
     // Le bonus ne porte que sur les cartes concernées, arrondi à l'inférieur
-    const bonus = Math.floor(sum(matching.map((c) => itemScore(c.player, config))) * rate);
-    tags.push({ tag, count: matching.length, rate, bonus });
+    const tagBonus = Math.floor(score * rate);
+    tags.push({ tag, count, rate, bonus: tagBonus });
+    bonus += tagBonus;
   }
 
-  const bonus = sum(tags.map((t) => t.bonus));
   return { base, bonus, total: base + bonus, tags };
 }
 
-// Les cartes d'une équipe concernées par un tag
-function matchingCards(cards: Card[], match: TagMatch): Card[] {
+// Nombre de cartes concernées par un tag, et la somme de leurs scores
+function matchingCards(
+  cards: Card[],
+  match: TagMatch,
+  config: ScoreConfig,
+): { count: number; score: number } {
   switch (match.kind) {
     case "firstOwner":
-      return cards.filter((c) => c.firstOwner);
+      return countWhere(cards, config, (c) => c.firstOwner);
     case "rating":
-      return cards.filter((c) => c.player.rating >= match.min && c.player.rating <= match.max);
+      return countWhere(
+        cards,
+        config,
+        (c) => c.player.rating >= match.min && c.player.rating <= match.max,
+      );
     case "version":
-      return cards.filter((c) => c.player.version === match.value);
+      return countWhere(cards, config, (c) => c.player.version === match.value);
     case "sameClub":
-      return largestGroup(cards, (c) => c.player.club);
+      return largestGroup(cards, config, (c) => c.player.club);
     case "sameLeague":
-      return largestGroup(cards, (c) => c.player.league);
+      return largestGroup(cards, config, (c) => c.player.league);
     case "sameNation":
-      return largestGroup(cards, (c) => c.player.nation);
+      return largestGroup(cards, config, (c) => c.player.nation);
   }
 }
 
+function countWhere(
+  cards: Card[],
+  config: ScoreConfig,
+  test: (c: Card) => boolean,
+): { count: number; score: number } {
+  let count = 0;
+  let score = 0;
+  for (const card of cards) {
+    if (test(card)) {
+      count++;
+      score += itemScore(card.player, config);
+    }
+  }
+  return { count, score };
+}
+
 // Regroupe les cartes (par club, ligue...) et renvoie le groupe le plus nombreux
-function largestGroup(cards: Card[], key: (c: Card) => string): Card[] {
-  const groups = new Map<string, Card[]>();
+// (à égalité, celui qui a le plus gros score)
+function largestGroup(
+  cards: Card[],
+  config: ScoreConfig,
+  key: (c: Card) => string,
+): { count: number; score: number } {
+  const groups = new Map<string, { count: number; score: number }>();
+  let largest = { count: 0, score: 0 };
   for (const card of cards) {
     const k = key(card);
-    groups.set(k, [...(groups.get(k) ?? []), card]);
+    const group = groups.get(k) ?? { count: 0, score: 0 };
+    group.count++;
+    group.score += itemScore(card.player, config);
+    groups.set(k, group);
   }
-  let largest: Card[] = [];
   for (const group of groups.values()) {
-    if (group.length > largest.length) largest = group;
+    if (
+      group.count > largest.count ||
+      (group.count === largest.count && group.score > largest.score)
+    ) {
+      largest = group;
+    }
   }
   return largest;
 }

@@ -79,16 +79,16 @@ export function analyzeSet(
   // On part de l'équipe du club, complétée si besoin par les cartes les moins chères.
   // Ensuite chaque palier repart de la solution du palier précédent.
   let working = fillEmptySlots(lineup, market, set.slots);
+  // Candidats pour les remplacements : les cartes du marché, et aussi celles de ton club
+  // (gratuites), sans les cartes qui ne peuvent jamais être un bon choix.
+  const candidates = usefulCandidates([...eligibleOwned, ...market], set.slots, config);
 
   const tiers = set.tiers.map((tier, index): TierAnalysis => {
     const reached = complete && lineupScore.total >= tier.minScore;
     if (reached) {
       return emptyTier(tier, true, lineupScore.total);
     }
-    // Candidats : les cartes du marché, et aussi celles de ton club (gratuites)
-    const solution = working
-      ? improveUntil(working, [...eligibleOwned, ...market], tier.minScore, config)
-      : null;
+    const solution = working ? improveUntil(working, candidates, tier.minScore, config) : null;
     if (!solution) return emptyTier(tier, false, 0, true);
     working = solution;
 
@@ -159,7 +159,7 @@ function bestOwnedLineup(owned: Card[], slots: number, config: ScoreConfig): Car
   const a = byScore.slice(0, slots);
   const b = firstOwnerFirst.slice(0, slots);
   const start = scoreLineup(b, config).total > scoreLineup(a, config).total ? b : a;
-  return improveBySwaps(start, owned, config);
+  return improveBySwaps(start, usefulCandidates(owned, slots, config), config);
 }
 
 // Améliore une équipe en échangeant ses cartes avec d'autres cartes du club,
@@ -170,21 +170,53 @@ function improveBySwaps(lineup: Card[], owned: Card[], config: ScoreConfig): Car
   let improved = true;
   while (improved) {
     improved = false;
-    const unused = owned.filter((c) => !best.includes(c));
-    for (let i = 0; i < best.length && !improved; i++) {
-      for (const candidate of unused) {
+    // Une passe : pour chaque emplacement, on garde le meilleur échange possible
+    for (let i = 0; i < best.length; i++) {
+      for (const candidate of owned) {
+        if (best.includes(candidate)) continue;
         const next = best.map((c, j) => (j === i ? candidate : c));
         const nextScore = scoreLineup(next, config).total;
         if (nextScore > bestScore) {
           best = next;
           bestScore = nextScore;
           improved = true;
-          break;
         }
       }
     }
   }
   return best;
+}
+
+// Retire les cartes qui ne valent jamais la peine d'être essayées : si au moins
+// "slots" cartes du même genre (même version, et premier propriétaire ou non) sont à
+// la fois moins chères (ou gratuites car déjà dans le club) et plus fortes,
+// celle-ci ne servira jamais.
+// C'est ce tri qui rend le calcul rapide avec des milliers de joueurs.
+function usefulCandidates(cards: Card[], slots: number, config: ScoreConfig): Card[] {
+  const cost = (c: Card) => (c.owned ? 0 : c.player.price);
+  const byKind = new Map<string, Card[]>();
+  for (const card of cards) {
+    const kind = `${card.player.version}|${card.firstOwner}`;
+    const group = byKind.get(kind) ?? [];
+    group.push(card);
+    byKind.set(kind, group);
+  }
+
+  const kept: Card[] = [];
+  for (const group of byKind.values()) {
+    // Du moins cher au plus cher (à prix égal, la plus forte d'abord)
+    group.sort(
+      (a, b) => cost(a) - cost(b) || itemScore(b.player, config) - itemScore(a.player, config),
+    );
+    const seenScores: number[] = []; // scores des cartes moins chères déjà vues
+    for (const card of group) {
+      const score = itemScore(card.player, config);
+      const betterAndCheaper = seenScores.filter((s) => s >= score).length;
+      if (betterAndCheaper < slots) kept.push(card);
+      seenScores.push(score);
+    }
+  }
+  return kept;
 }
 
 // Complète les emplacements vides avec les cartes du marché les moins chères.

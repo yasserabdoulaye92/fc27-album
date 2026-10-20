@@ -14,7 +14,7 @@
 //     Cette méthode suppose les sets indépendants : on recalcule ensuite le vrai coût
 //     en dédoublonnant les cartes communes à plusieurs sets.
 
-import { analyzeSet, type SetAnalysis } from "./album.ts";
+import { analyzeSet, isEligible, type SetAnalysis } from "./album.ts";
 import type { ParsedClub } from "./club.ts";
 import { sum } from "./score.ts";
 import type { AlbumSet, GradeTier, Player, Rules, ScoreConfig } from "./types.ts";
@@ -66,8 +66,12 @@ export function hasAnyLimit(input: PlannerInput): boolean {
 export function planAlbum(club: ParsedClub, input: PlannerInput, ctx: Context): Plan | null {
   if (!hasAnyLimit(input)) return null;
 
-  const greedy = greedyPlan(club, input, ctx);
-  const dynamic = dynamicPlan(club, input, ctx);
+  // Analyse de départ de chaque set, partagée par les deux méthodes
+  const base = new Map(
+    ctx.sets.map((set) => [set.id, analyzeSet(set, club, ctx.players, ctx.config, ctx.rules)]),
+  );
+  const greedy = greedyPlan(club, input, ctx, base);
+  const dynamic = dynamicPlan(club, input, ctx, base);
   if (!dynamic) return greedy;
 
   return isBetter(dynamic, greedy, input) ? dynamic : greedy;
@@ -88,9 +92,16 @@ function isBetter(a: Plan, b: Plan, input: PlannerInput): boolean {
 // 1. Méthode gloutonne
 // ---------------------------------------------------------------------------
 
-function greedyPlan(club: ParsedClub, input: PlannerInput, ctx: Context): Plan {
+function greedyPlan(
+  club: ParsedClub,
+  input: PlannerInput,
+  ctx: Context,
+  base: Map<string, SetAnalysis>,
+): Plan {
   const bought = new Map<number, Player>(); // cartes achetées jusqu'ici
   const touchedSets = new Set<string>(); // sets améliorés
+  // Analyses à jour ; après un achat, on ne recalcule que les sets concernés
+  const analyses = new Map(base);
   let tokens = 0;
 
   for (;;) {
@@ -101,7 +112,11 @@ function greedyPlan(club: ParsedClub, input: PlannerInput, ctx: Context): Plan {
     let bestStep: { analysis: SetAnalysis; tierIndex: number; ratio: number } | null = null;
 
     for (const set of ctx.sets) {
-      const analysis = analyzeSet(set, current, ctx.players, ctx.config, ctx.rules);
+      let analysis = analyses.get(set.id);
+      if (!analysis) {
+        analysis = analyzeSet(set, current, ctx.players, ctx.config, ctx.rules);
+        analyses.set(set.id, analysis);
+      }
       for (let tierIndex = 0; tierIndex < analysis.tiers.length; tierIndex++) {
         const t = analysis.tiers[tierIndex];
         if (t.reached || t.impossible || t.tokens <= 0) continue;
@@ -128,13 +143,16 @@ function greedyPlan(club: ParsedClub, input: PlannerInput, ctx: Context): Plan {
 
     const tier = chosen.analysis.tiers[chosen.tierIndex];
     for (const p of tier.toBuy) bought.set(p.id, p);
+    for (const set of ctx.sets) {
+      if (tier.toBuy.some((p) => isEligible(p, set))) analyses.delete(set.id);
+    }
     touchedSets.add(chosen.analysis.set.id);
     tokens += tier.tokens;
 
     if (input.tokenGoal !== undefined && tokens >= input.tokenGoal) break;
   }
 
-  return buildPlan("greedy", club, bought, input, ctx);
+  return buildPlan("greedy", club, bought, input, ctx, base);
 }
 
 // ---------------------------------------------------------------------------
@@ -143,10 +161,14 @@ function greedyPlan(club: ParsedClub, input: PlannerInput, ctx: Context): Plan {
 
 type Option = { units: number; credits: number; tokens: number; toBuy: Player[] };
 
-function dynamicPlan(club: ParsedClub, input: PlannerInput, ctx: Context): Plan | null {
+function dynamicPlan(
+  club: ParsedClub,
+  input: PlannerInput,
+  ctx: Context,
+  base: Map<string, SetAnalysis>,
+): Plan | null {
   // Les options de chaque set, calculées avec le club de départ
-  const groups: Option[][] = ctx.sets
-    .map((set) => analyzeSet(set, club, ctx.players, ctx.config, ctx.rules))
+  const groups: Option[][] = [...base.values()]
     .map((analysis) =>
       analysis.tiers
         .filter((t) => !t.reached && !t.impossible && t.tokens > 0)
@@ -167,7 +189,7 @@ function dynamicPlan(club: ParsedClub, input: PlannerInput, ctx: Context): Plan 
 
   const bought = new Map<number, Player>();
   for (const option of chosen) for (const p of option.toBuy) bought.set(p.id, p);
-  const plan = buildPlan("dynamic", club, bought, input, ctx);
+  const plan = buildPlan("dynamic", club, bought, input, ctx, base);
 
   // Le sac à dos ne surveille que le budget : on vérifie les autres limites ici
   const ok = respectsLimits(input, ctx.rules, plan.credits, plan.transfers, plan.steps.length);
@@ -307,12 +329,15 @@ function buildPlan(
   bought: Map<number, Player>,
   input: PlannerInput,
   ctx: Context,
+  base: Map<string, SetAnalysis>,
 ): Plan {
   const after = withPurchases(club, bought);
   let steps: PlanStep[] = [];
 
   for (const set of ctx.sets) {
-    const before = analyzeSet(set, club, ctx.players, ctx.config, ctx.rules);
+    // Un set sans aucune carte achetée éligible ne change pas
+    if (![...bought.values()].some((p) => isEligible(p, set))) continue;
+    const before = base.get(set.id)!;
     const now = analyzeSet(set, after, ctx.players, ctx.config, ctx.rules);
     const gained = earnedTokens(now, ctx.rules) - earnedTokens(before, ctx.rules);
     if (gained <= 0 || !now.currentTier) continue;
