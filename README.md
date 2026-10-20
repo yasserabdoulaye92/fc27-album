@@ -3,9 +3,10 @@
 Site perso pour décider quels sets de l'album (Galerie) d'EA FC 27 Ultimate Team
 compléter pour gagner le plus de jetons avec un budget en crédits.
 
-On colle son club (liste d'ids ou CSV), et le site affiche pour chaque set :
-joueurs récupérés / total, joueurs manquants, crédits nécessaires par palier,
-taxe de 5 %, jetons gagnables et un verdict de rentabilité (crédits par jeton).
+On colle son club (liste d'ids ou CSV, en marquant les cartes « premier propriétaire »),
+et le site calcule pour chaque set le score actuel (barème par note + bonus des tags),
+puis les cartes à acheter pour atteindre chaque palier, les crédits à avancer,
+la perte de taxe à la revente, les jetons gagnables et un verdict de rentabilité.
 
 > Projet indépendant, sans lien avec EA. Aucune image ni donnée officielle :
 > les données de `data/` sont des exemples inventés.
@@ -31,9 +32,11 @@ Puis ouvrir http://localhost:3000. Sous Windows, on peut aussi double-cliquer su
 
 | Dossier / fichier | Rôle |
 |---|---|
-| `data/` | Joueurs, sets et règles de l'album en JSON (format décrit dans `data/README.md`) |
-| `lib/club.ts` | Lecture du club collé (ids ou CSV) |
-| `lib/album.ts` | Calcul du coût, de la taxe et des jetons de chaque palier |
+| `data/` | Joueurs, sets, barème des scores et règles en JSON (format décrit dans `data/README.md`) |
+| `docs/regles-album.md` | Notes de recherche sur les vraies règles de l'album |
+| `lib/club.ts` | Lecture du club collé (ids ou CSV, premier propriétaire) |
+| `lib/score.ts` | Score d'une équipe : barème par note + bonus des tags |
+| `lib/album.ts` | Meilleure équipe du club et achats pour atteindre chaque palier |
 | `app/page.tsx` | Page d'accueil (charge les données) |
 | `app/components/` | Composants d'affichage (zone d'import, carte d'un set) |
 

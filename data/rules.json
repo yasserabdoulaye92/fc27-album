@@ -1,5 +1,5 @@
 {
   "taxRate": 0.05,
   "cumulativeTiers": true,
-  "maxCreditsPerToken": 2000
+  "maxTaxLossPerToken": 300
 }

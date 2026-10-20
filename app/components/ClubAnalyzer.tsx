@@ -4,7 +4,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { analyzeSet } from "@/lib/album";
 import { parseClub } from "@/lib/club";
-import type { AlbumSet, Player, Rules } from "@/lib/types";
+import type { AlbumSet, Player, Rules, ScoreConfig } from "@/lib/types";
 import SetCard from "./SetCard";
 import { formatCredits } from "./format";
 
@@ -12,15 +12,17 @@ import { formatCredits } from "./format";
 // pour ne pas avoir à le recoller à chaque visite.
 const STORAGE_KEY = "fc27-album:club";
 
-const EXAMPLE_CLUB = "1, 2, 3, 7, 13";
+// Exemple : une étoile = carte premier propriétaire
+const EXAMPLE_CLUB = "1*, 2*, 3*, 5*, 19*, 7, 13";
 
 type Props = {
   players: Player[];
   sets: AlbumSet[];
+  config: ScoreConfig;
   rules: Rules;
 };
 
-export default function ClubAnalyzer({ players, sets, rules }: Props) {
+export default function ClubAnalyzer({ players, sets, config, rules }: Props) {
   const [clubText, setClubText] = useState("");
 
   // Au chargement : on récupère le club enregistré la dernière fois.
@@ -47,16 +49,16 @@ export default function ClubAnalyzer({ players, sets, rules }: Props) {
   const club = useMemo(() => parseClub(clubText, players), [clubText, players]);
 
   const analyses = useMemo(() => {
-    const playersById = new Map(players.map((p) => [p.id, p]));
-    const results = sets.map((set) => analyzeSet(set, club.ownedIds, playersById, rules));
-    // Les sets les plus rentables (moins de crédits par jeton) en premier
+    const results = sets.map((set) => analyzeSet(set, club, players, config, rules));
+    // Les sets les plus rentables (moins de perte par jeton) en premier
     return results.sort(
       (a, b) =>
-        (a.best?.creditsPerToken ?? Infinity) - (b.best?.creditsPerToken ?? Infinity),
+        (a.best?.taxLossPerToken ?? Infinity) - (b.best?.taxLossPerToken ?? Infinity),
     );
-  }, [club, players, sets, rules]);
+  }, [club, players, sets, config, rules]);
 
   const profitableCount = analyses.filter((a) => a.best?.profitable).length;
+  const owned = club.ownedIds.size;
 
   return (
     <div className="flex flex-col gap-8">
@@ -67,14 +69,18 @@ export default function ClubAnalyzer({ players, sets, rules }: Props) {
         <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
           Colle les ids de tes joueurs (séparés par des virgules, espaces ou retours à la ligne),
           ou un CSV avec une colonne <code className="font-mono">id</code> ou{" "}
-          <code className="font-mono">nom</code>.
+          <code className="font-mono">nom</code>. Ajoute une étoile après l&apos;id (
+          <code className="font-mono">12*</code>) pour une carte{" "}
+          <strong>premier propriétaire</strong> (obtenue en pack, objectif ou DCE, pas achetée) :
+          elle donne un gros bonus de score. En CSV : colonne{" "}
+          <code className="font-mono">premier_proprietaire</code> = oui.
         </p>
         <textarea
           id="club"
           value={clubText}
           onChange={(e) => updateClubText(e.target.value)}
           rows={5}
-          placeholder={"1, 2, 3\nou\nid;nom\n1;Lucas Ferrand"}
+          placeholder={"1, 2*, 3\nou\nid;nom;premier_proprietaire\n1;Lucas Ferrand;oui"}
           className="mt-3 w-full rounded-lg border border-zinc-300 bg-zinc-50 p-3 font-mono text-sm outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/30 dark:border-zinc-700 dark:bg-zinc-950"
         />
         <div className="mt-3 flex flex-wrap items-center gap-3 text-sm">
@@ -93,8 +99,9 @@ export default function ClubAnalyzer({ players, sets, rules }: Props) {
             Effacer
           </button>
           <span className="text-zinc-600 dark:text-zinc-400">
-            {club.ownedIds.size} joueur{club.ownedIds.size > 1 ? "s" : ""} reconnu
-            {club.ownedIds.size > 1 ? "s" : ""}
+            {owned} joueur{owned > 1 ? "s" : ""} reconnu{owned > 1 ? "s" : ""}
+            {club.firstOwnerIds.size > 0 &&
+              ` dont ${club.firstOwnerIds.size} ★ premier propriétaire`}
           </span>
         </div>
         {club.unknown.length > 0 && (
@@ -106,16 +113,21 @@ export default function ClubAnalyzer({ players, sets, rules }: Props) {
       </section>
 
       <section>
-        <div className="mb-4 flex flex-wrap items-baseline justify-between gap-2">
+        <div className="mb-2 flex flex-wrap items-baseline justify-between gap-2">
           <h2 className="text-xl font-bold">Sets de l&apos;album</h2>
           <p className="text-sm text-zinc-600 dark:text-zinc-400">
             {profitableCount} set{profitableCount > 1 ? "s" : ""} rentable
-            {profitableCount > 1 ? "s" : ""} sur {analyses.length} · seuil :{" "}
-            {formatCredits(rules.maxCreditsPerToken)} / jeton · taxe{" "}
+            {profitableCount > 1 ? "s" : ""} sur {analyses.length} · perte max{" "}
+            {formatCredits(rules.maxTaxLossPerToken)} / jeton · taxe{" "}
             {Math.round(rules.taxRate * 100)} %
           </p>
         </div>
-        <div className="grid gap-4 md:grid-cols-2">
+        <p className="mb-4 text-sm text-zinc-600 dark:text-zinc-400">
+          L&apos;album ne consomme pas tes cartes : tu peux acheter, valider le set puis revendre.{" "}
+          <strong>Crédits</strong> = ce que tu avances ; <strong>perte</strong> = la taxe payée en
+          revendant. Les achats proposés sont une bonne estimation, pas toujours le minimum absolu.
+        </p>
+        <div className="grid gap-4">
           {analyses.map((analysis) => (
             <SetCard key={analysis.set.id} analysis={analysis} />
           ))}

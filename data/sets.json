@@ -3,50 +3,55 @@
     "id": "club-alpha",
     "name": "Club Alpha",
     "type": "club",
-    "playerIds": [1, 2, 3, 4, 5, 6],
+    "slots": 5,
+    "eligibility": { "club": "Club Alpha" },
     "tiers": [
-      { "name": "D", "required": 2, "tokens": 1 },
-      { "name": "C", "required": 3, "tokens": 2 },
-      { "name": "B", "required": 4, "tokens": 3 },
-      { "name": "A", "required": 5, "tokens": 5 },
-      { "name": "S", "required": 6, "tokens": 8 }
+      { "name": "D", "minScore": 500, "tokens": 5 },
+      { "name": "C", "minScore": 8000, "tokens": 10 },
+      { "name": "B", "minScore": 15000, "tokens": 15 },
+      { "name": "A", "minScore": 25000, "tokens": 25 },
+      { "name": "S", "minScore": 35000, "tokens": 40 }
     ]
   },
   {
     "id": "club-bravo",
     "name": "Club Bravo",
     "type": "club",
-    "playerIds": [7, 8, 9, 10, 11, 12],
+    "slots": 5,
+    "eligibility": { "club": "Club Bravo" },
     "tiers": [
-      { "name": "D", "required": 2, "tokens": 1 },
-      { "name": "C", "required": 3, "tokens": 2 },
-      { "name": "B", "required": 4, "tokens": 3 },
-      { "name": "A", "required": 5, "tokens": 5 },
-      { "name": "S", "required": 6, "tokens": 8 }
+      { "name": "D", "minScore": 500, "tokens": 5 },
+      { "name": "C", "minScore": 5000, "tokens": 10 },
+      { "name": "B", "minScore": 12000, "tokens": 20 },
+      { "name": "A", "minScore": 25000, "tokens": 30 },
+      { "name": "S", "minScore": 40000, "tokens": 45 }
     ]
   },
   {
     "id": "ligue-demo",
     "name": "Ligue Démo",
     "type": "league",
-    "playerIds": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+    "slots": 8,
+    "eligibility": { "league": "Ligue Démo" },
     "tiers": [
-      { "name": "D", "required": 3, "tokens": 1 },
-      { "name": "C", "required": 5, "tokens": 2 },
-      { "name": "B", "required": 7, "tokens": 4 },
-      { "name": "A", "required": 9, "tokens": 6 },
-      { "name": "S", "required": 12, "tokens": 10 }
+      { "name": "D", "minScore": 1000, "tokens": 5 },
+      { "name": "C", "minScore": 10000, "tokens": 15 },
+      { "name": "B", "minScore": 30000, "tokens": 30 },
+      { "name": "A", "minScore": 50000, "tokens": 50 },
+      { "name": "S", "minScore": 80000, "tokens": 75 }
     ]
   },
   {
-    "id": "heros-demo",
-    "name": "Héros démo",
+    "id": "heros",
+    "name": "Héros",
     "type": "special",
-    "playerIds": [13, 14, 15, 16],
+    "slots": 3,
+    "eligibility": { "version": "Héros" },
     "tiers": [
-      { "name": "D", "required": 1, "tokens": 2 },
-      { "name": "B", "required": 3, "tokens": 6 },
-      { "name": "S", "required": 4, "tokens": 12 }
+      { "name": "D", "minScore": 5000, "tokens": 5 },
+      { "name": "C", "minScore": 15000, "tokens": 10 },
+      { "name": "B", "minScore": 25000, "tokens": 20 },
+      { "name": "S", "minScore": 40000, "tokens": 40 }
     ]
   }
 ]
