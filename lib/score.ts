@@ -3,7 +3,7 @@
 //   bonus         = pour chaque tag rempli : score des cartes concernées × pourcentage
 //   score total   = base + bonus  → c'est lui qui donne le palier (D à S)
 
-import type { Player, ScoreConfig, TagMatch, TagRule } from "./types";
+import type { Player, ScoreConfig, TagMatch, TagRule } from "./types.ts";
 
 // Une carte placée dans un set
 export type Card = {

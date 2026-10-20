@@ -7,7 +7,7 @@
 //      et éventuellement une colonne "premier_proprietaire" (oui / non)
 //      ex. "id;nom;premier_proprietaire\n1;Lucas Ferrand;oui"
 
-import type { Player } from "./types";
+import type { Player } from "./types.ts";
 
 export type ParsedClub = {
   ownedIds: Set<number>; // ids des joueurs reconnus
