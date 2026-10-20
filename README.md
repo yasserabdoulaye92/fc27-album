@@ -66,6 +66,7 @@ Puis ouvrir http://localhost:3000. Sous Windows, on peut aussi double-cliquer su
 | `npm run typecheck` | Vérifie les types TypeScript           |
 | `npm run lint`      | Vérifie le style du code               |
 | `npm run build`     | Construit la version de production     |
+| `npm run import -- joueurs fichier.csv` | Importe des joueurs depuis un tableur |
 
 ## Organisation du code
 
@@ -77,6 +78,7 @@ Puis ouvrir http://localhost:3000. Sous Windows, on peut aussi double-cliquer su
 | `lib/score.ts`          | Score d'une équipe : barème par note + bonus des tags |
 | `lib/album.ts`          | Meilleure équipe du club et achats pour chaque palier |
 | `lib/planner.ts`        | Planificateur (glouton + sac à dos) |
+| `lib/csv-import.ts`     | Conversion de tableurs CSV en données (`scripts/import-csv.ts`) |
 | `app/`                  | Pages et composants (Next.js) |
 | `tests/`                | Tests automatiques (`node --test`, sans dépendance) |
 
@@ -86,7 +88,7 @@ Stack : [Next.js](https://nextjs.org) (App Router), TypeScript, Tailwind CSS.
 
 - [x] **Étape 1** — Import du club et analyse de chaque set
 - [x] **Étape 2** — Planificateur (budget, objectif, limites)
-- [ ] Import de vraies données (joueurs, sets, prix) depuis un CSV
+- [x] Import de vraies données (joueurs, sets, prix) depuis un CSV (`npm run import`)
 - [ ] **Étape 3** — Comptes et base de données (Supabase)
 - [ ] **Étape 4** — Mise en ligne (Vercel)
 - [ ] Tags de poste (Mur défensif, Attaque totale…) et Multiples

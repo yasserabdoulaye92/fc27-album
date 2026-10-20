@@ -1,0 +1,25 @@
+id;nom;club;ligue;nation;note;version;prix
+1;Lucas Ferrand;Club Alpha;Ligue Démo;France;84;Or rare;1500
+2;Marco Bellini;Club Alpha;Ligue Démo;Italie;82;Or rare;900
+3;Tom Vasseur;Club Alpha;Ligue Démo;France;79;Or;300
+4;Diego Ramos;Club Alpha;Ligue Démo;Espagne;86;Or rare;4500
+5;Jonas Weber;Club Alpha;Ligue Démo;Allemagne;77;Or;250
+6;Karim Haddad;Club Alpha;Ligue Démo;Maroc;89;Or rare;21000
+19;Paul Girard;Club Alpha;Ligue Démo;France;75;Or;150
+21;Noah Petit;Club Alpha;Ligue Démo;Belgique;80;Or;350
+17;Rémi Dubois;Club Alpha;Ligue Démo;France;85;TOTW;6000
+7;Nils Andersen;Club Bravo;Ligue Démo;Danemark;83;Or rare;1200
+8;Pedro Costa;Club Bravo;Ligue Démo;Portugal;80;Or;400
+9;Samuel Okafor;Club Bravo;Ligue Démo;Nigeria;85;Or rare;3200
+10;Hugo Martin;Club Bravo;Ligue Démo;France;78;Or;200
+11;Ivan Petrov;Club Bravo;Ligue Démo;Croatie;81;Or rare;700
+12;Leo Schmidt;Club Bravo;Ligue Démo;Allemagne;87;Or rare;9500
+20;Max Keller;Club Bravo;Ligue Démo;Suisse;76;Or;150
+22;Sven Berg;Club Bravo;Ligue Démo;Suède;81;Or;400
+18;Ole Hansen;Club Bravo;Ligue Démo;Norvège;86;TOTW;9000
+13;Alain Mercier;Club Alpha;Ligue Démo;France;88;Héros;15000
+14;Bruno Silva;Club Bravo;Ligue Démo;Brésil;89;Héros;32000
+15;Erik Larsen;Club Alpha;Ligue Démo;Norvège;87;Héros;11000
+16;Yann Le Gall;Club Bravo;Ligue Démo;France;90;Héros;48000
+23;Ricardo Luz;ICÔNES;ICÔNES;Brésil;88;ICÔNE;90000
+24;Jean Moreau;ICÔNES;ICÔNES;France;87;ICÔNE;60000

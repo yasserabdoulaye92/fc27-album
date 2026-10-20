@@ -50,6 +50,28 @@ Chaque palier :
 | `minScore` | `8000`  | Score total à atteindre                |
 | `tokens`   | `10`    | Jetons gagnés en atteignant ce palier  |
 
+## Importer depuis un tableur (CSV)
+
+Plus simple que d'écrire le JSON à la main : remplis un tableau dans Excel ou
+Google Sheets, enregistre-le en CSV, puis lance :
+
+```bash
+npm run import -- joueurs mon-fichier.csv
+npm run import -- sets mon-fichier.csv
+```
+
+Le fichier `data/players.json` (ou `data/sets.json`) est **remplacé**. Les lignes
+invalides sont ignorées et signalées avec leur numéro.
+Des modèles prêts à copier sont dans [`modeles/`](modeles/) :
+
+- `joueurs.csv` : `id;nom;club;ligue;nation;note;version;prix`
+- `sets.csv` : `id;nom;type;emplacements;club;ligue;nation;version;D;C;B;A;S`
+  - `type` : `club`, `ligue` ou `special`
+  - `club` / `ligue` / `nation` / `version` : conditions d'éligibilité (vide = pas de condition)
+  - chaque palier : `seuil/jetons`, ex. `25000/5` (vide = pas de palier)
+
+Le séparateur peut être `;` (Excel en français) ou `,`.
+
 ## `scores.json` — le barème des scores et les tags
 
 - `ratingScores` : score d'une carte selon sa note. On prend la première ligne
