@@ -2,7 +2,7 @@
 // combinaisons de sets permettent de les gagner.
 
 import type { ParsedClub } from "./club.ts";
-import { planAlbum, type Plan } from "./planner.ts";
+import { analyzeAll, fewestSetsPlan, planAlbum, type BaseAnalyses, type Plan } from "./planner.ts";
 import type { AlbumSet, Player, Reward, Rules, ScoreConfig } from "./types.ts";
 
 type Context = { sets: AlbumSet[]; players: Player[]; config: ScoreConfig; rules: Rules };
@@ -18,32 +18,26 @@ export type RewardPlan = {
   options: RewardOption[]; // vide si rien ne manque
 };
 
-// Au-delà, chercher "le moins de sets" prendrait trop de calculs
-const MAX_SETS_TRIED = 6;
-
 export function planForReward(
   club: ParsedClub,
   reward: Reward,
   balance: number,
   ctx: Context,
+  base: BaseAnalyses = analyzeAll(club, ctx),
 ): RewardPlan {
   const missing = Math.max(0, reward.cost - balance);
   if (missing === 0) return { missing, options: [] };
 
   // 1. Le moins cher : le planificateur avec un objectif de jetons
-  const cheapest = planAlbum(club, { tokenGoal: missing }, ctx);
+  const cheapest = planAlbum(club, { tokenGoal: missing }, ctx, base);
   if (!cheapest) return { missing, options: [] };
   const options: RewardOption[] = [{ id: "cheapest", label: "Le moins cher", plan: cheapest }];
 
-  // 2. Le moins de sets : on essaie avec 1 set, puis 2, etc., tant que c'est plus court
+  // 2. Le moins de sets, si c'est vraiment plus court
   if (cheapest.goalReached) {
-    const limit = Math.min(cheapest.steps.length - 1, MAX_SETS_TRIED);
-    for (let maxSets = 1; maxSets <= limit; maxSets++) {
-      const plan = planAlbum(club, { tokenGoal: missing, maxSets }, ctx);
-      if (plan?.goalReached) {
-        options.push({ id: "fewest-sets", label: "Le moins de sets", plan });
-        break;
-      }
+    const fewest = fewestSetsPlan(club, missing, ctx, base);
+    if (fewest?.goalReached && fewest.steps.length < cheapest.steps.length) {
+      options.push({ id: "fewest-sets", label: "Le moins de sets", plan: fewest });
     }
   }
   return { missing, options };

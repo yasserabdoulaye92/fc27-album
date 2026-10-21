@@ -12,8 +12,8 @@ et fais-moi tester chaque étape avant de passer à la suivante. Réponds en fra
 - Next.js (App Router) + TypeScript + Tailwind CSS
 - Supabase : base de données Postgres + connexion par lien magique (e-mail)
 - Hébergement : Vercel
-- Pas de scraping de FUTBIN / FUT.GG / EA pour l'instant : les données sont importées
-  à la main (CSV ou JSON) ou saisies dans une page admin.
+- Données (sets, joueurs, prix) : récupérées sur FUT.GG / FUTBIN, ou importées à la main
+  (CSV ou JSON) ou saisies dans une page admin.
 
 ## Fonctionnalités, dans l'ordre
 

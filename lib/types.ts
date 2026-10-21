@@ -12,6 +12,17 @@ export type Player = {
   rating: number; // note générale
   version: string; // "Or rare", "TOTW", "Héros", "ICÔNE"...
   price: number; // prix estimé en crédits
+  // Champs facultatifs, remplis par l'import FUT.GG (npm run futgg)
+  score?: number; // vrai score de la carte dans la Galerie (sinon calculé avec le barème)
+  clubId?: number; // identifiants EA
+  leagueId?: number;
+  rarityId?: number;
+  nationId?: number;
+  baseId?: number; // même valeur pour toutes les versions d'un même joueur
+  positions?: string[];
+  weakFoot?: number; // mauvais pied (1 à 5 étoiles)
+  skillMoves?: number; // gestes techniques (1 à 5 étoiles)
+  holographic?: boolean;
 };
 
 // ---------- data/photos.json ----------
@@ -39,6 +50,10 @@ export type Eligibility = {
   league?: string;
   nation?: string;
   version?: string;
+  // Par identifiant EA (import FUT.GG)
+  clubId?: number;
+  leagueId?: number;
+  rarityIds?: number[]; // une des raretés de la liste
 };
 
 export type AlbumSet = {
@@ -55,12 +70,21 @@ export type AlbumSet = {
 // Score d'une carte selon sa note : on prend la première ligne dont "min" est atteint.
 export type RatingScore = { min: number; score: number };
 
+// Caractéristique comparée par les tags "même ..." / "différents ..."
+export type GroupAttribute = "club" | "league" | "nation" | "player";
+
 // Quelles cartes un tag regarde
 export type TagMatch =
   | { kind: "firstOwner" } // cartes premier propriétaire
   | { kind: "rating"; min: number; max: number } // note entre min et max (bronze, argent, or)
-  | { kind: "version"; value: string } // version de carte (Héros, ICÔNE, TOTW...)
-  | { kind: "sameClub" | "sameLeague" | "sameNation" }; // le plus grand groupe du même club/ligue/nation
+  | { kind: "version"; value: string } // version de carte (nom)
+  | { kind: "rarity"; ids: number[] } // rareté EA (ICÔNE, Héros, TOTW...)
+  | { kind: "holographic" }
+  | { kind: "positions"; values: string[] } // au moins un de ces postes
+  | { kind: "minAttribute"; attribute: "weakFoot" | "skillMoves"; min: number }
+  | { kind: "same"; attribute: GroupAttribute } // le plus grand groupe identique
+  | { kind: "different"; attribute: GroupAttribute } // une carte par valeur différente
+  | { kind: "sameClub" | "sameLeague" | "sameNation" }; // anciens noms de "same"
 
 export type TagRule = {
   id: string;

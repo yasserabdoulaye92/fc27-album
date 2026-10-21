@@ -9,7 +9,7 @@
 // L'étape 2 se fait avec une méthode "gloutonne" (on prend à chaque fois le meilleur
 // achat du moment) : rapide et simple, mais pas toujours la solution la moins chère.
 
-import { itemScore, scoreLineup, sum, type Card, type LineupScore } from "./score.ts";
+import { itemScore, LineupScorer, scoreLineup, sum, type Card, type LineupScore } from "./score.ts";
 import type { AlbumSet, GradeTier, Player, Rules, ScoreConfig } from "./types.ts";
 import type { ParsedClub } from "./club.ts";
 
@@ -44,7 +44,11 @@ export function isEligible(player: Player, set: AlbumSet): boolean {
     (e.club === undefined || player.club === e.club) &&
     (e.league === undefined || player.league === e.league) &&
     (e.nation === undefined || player.nation === e.nation) &&
-    (e.version === undefined || player.version === e.version)
+    (e.version === undefined || player.version === e.version) &&
+    (e.clubId === undefined || player.clubId === e.clubId) &&
+    (e.leagueId === undefined || player.leagueId === e.leagueId) &&
+    (e.rarityIds === undefined ||
+      (player.rarityId !== undefined && e.rarityIds.includes(player.rarityId)))
   );
 }
 
@@ -165,26 +169,28 @@ function bestOwnedLineup(owned: Card[], slots: number, config: ScoreConfig): Car
 // Améliore une équipe en échangeant ses cartes avec d'autres cartes du club,
 // tant qu'un échange fait monter le score total (utile à cause des bonus de tags).
 function improveBySwaps(lineup: Card[], owned: Card[], config: ScoreConfig): Card[] {
-  let best = lineup;
-  let bestScore = scoreLineup(best, config).total;
+  const scorer = new LineupScorer(lineup, config);
+  let bestScore = scorer.total();
+  const used = new Set(lineup);
   let improved = true;
   while (improved) {
     improved = false;
     // Une passe : pour chaque emplacement, on garde le meilleur échange possible
-    for (let i = 0; i < best.length; i++) {
+    for (let i = 0; i < lineup.length; i++) {
       for (const candidate of owned) {
-        if (best.includes(candidate)) continue;
-        const next = best.map((c, j) => (j === i ? candidate : c));
-        const nextScore = scoreLineup(next, config).total;
+        if (used.has(candidate)) continue;
+        const nextScore = scorer.totalIfSwapped(i, candidate);
         if (nextScore > bestScore) {
-          best = next;
+          used.delete(scorer.lineup()[i]);
+          used.add(candidate);
+          scorer.swap(i, candidate);
           bestScore = nextScore;
           improved = true;
         }
       }
     }
   }
-  return best;
+  return scorer.lineup();
 }
 
 // Retire les cartes qui ne valent jamais la peine d'être essayées : si au moins
@@ -230,7 +236,7 @@ function fillEmptySlots(lineup: Card[], market: Card[], slots: number): Card[] |
 }
 
 // Remplace des cartes (du marché ou de ton club) jusqu'à atteindre le score visé.
-// À chaque tour, on remplace la carte la plus faible :
+// À chaque tour, on essaie de remplacer les cartes les moins utiles :
 //   - si un seul achat suffit à atteindre le seuil, on prend le moins cher ;
 //   - sinon on prend celui qui rapporte le plus de points par crédit.
 function improveUntil(
@@ -239,42 +245,42 @@ function improveUntil(
   target: number,
   config: ScoreConfig,
 ): Card[] | null {
-  let lineup = start;
-  let score = scoreLineup(lineup, config).total;
+  const scorer = new LineupScorer(start, config);
+  let score = scorer.total();
 
   while (score < target) {
-    let bestFinisher: { lineup: Card[]; cost: number } | null = null;
-    let bestStep: { lineup: Card[]; ratio: number } | null = null;
+    const lineup = scorer.lineup();
+    const inLineup = new Set(lineup.map((c) => c.player.id));
+    let bestFinisher: { slot: number; card: Card; cost: number } | null = null;
+    let bestStep: { slot: number; card: Card; ratio: number } | null = null;
 
-    // On essaie de remplacer chacune des cartes les moins utiles de l'équipe
-    for (const slot of leastUsefulSlots(lineup, config, SLOTS_TO_TRY)) {
+    for (const slot of leastUsefulSlots(scorer, lineup.length, SLOTS_TO_TRY)) {
       // Si la carte remplacée était un achat, on n'a plus besoin de l'acheter
       const replaced = lineup[slot];
       const refund = replaced.owned ? 0 : replaced.player.price;
 
       for (const candidate of candidates) {
-        if (lineup.some((c) => c.player.id === candidate.player.id)) continue;
-        const next = lineup.map((c, i) => (i === slot ? candidate : c));
-        const nextScore = scoreLineup(next, config).total;
+        if (inLineup.has(candidate.player.id)) continue;
+        const nextScore = scorer.totalIfSwapped(slot, candidate);
         const gain = nextScore - score;
         if (gain <= 0) continue;
         const cost = (candidate.owned ? 0 : candidate.player.price) - refund;
 
         if (nextScore >= target) {
-          if (!bestFinisher || cost < bestFinisher.cost) bestFinisher = { lineup: next, cost };
+          if (!bestFinisher || cost < bestFinisher.cost) bestFinisher = { slot, card: candidate, cost };
         } else {
           const ratio = gain / Math.max(cost, 1);
-          if (!bestStep || ratio > bestStep.ratio) bestStep = { lineup: next, ratio };
+          if (!bestStep || ratio > bestStep.ratio) bestStep = { slot, card: candidate, ratio };
         }
       }
     }
 
-    const chosen = bestFinisher?.lineup ?? bestStep?.lineup;
+    const chosen = bestFinisher ?? bestStep;
     if (!chosen) return null; // plus aucun achat ne fait monter le score
-    lineup = chosen;
-    score = scoreLineup(lineup, config).total;
+    scorer.swap(chosen.slot, chosen.card);
+    score = scorer.total();
   }
-  return lineup;
+  return scorer.lineup();
 }
 
 // Nombre de cartes de l'équipe qu'on essaie de remplacer à chaque tour
@@ -283,13 +289,12 @@ const SLOTS_TO_TRY = 3;
 
 // Les emplacements dont la carte rapporte le moins : on mesure combien de points
 // l'équipe perd si on retire la carte (son score + sa part dans les bonus de tags).
-function leastUsefulSlots(lineup: Card[], config: ScoreConfig, count: number): number[] {
-  const total = scoreLineup(lineup, config).total;
-  return lineup
-    .map((_, i) => ({
-      index: i,
-      usefulness: total - scoreLineup(lineup.filter((_, j) => j !== i), config).total,
-    }))
+function leastUsefulSlots(scorer: LineupScorer, size: number, count: number): number[] {
+  const total = scorer.total();
+  return Array.from({ length: size }, (_, index) => ({
+    index,
+    usefulness: total - scorer.totalIfRemoved(index),
+  }))
     .sort((a, b) => a.usefulness - b.usefulness)
     .slice(0, count)
     .map((s) => s.index);

@@ -1,33 +1,117 @@
 {
   "ratingScores": [
-    { "min": 99, "score": 100000 },
-    { "min": 98, "score": 90000 },
-    { "min": 97, "score": 85000 },
-    { "min": 96, "score": 55000 },
-    { "min": 95, "score": 40000 },
-    { "min": 94, "score": 30000 },
-    { "min": 93, "score": 25000 },
-    { "min": 92, "score": 20000 },
-    { "min": 91, "score": 19000 },
-    { "min": 90, "score": 14000 },
-    { "min": 89, "score": 11000 },
-    { "min": 88, "score": 8300 },
-    { "min": 87, "score": 5500 },
-    { "min": 86, "score": 4100 },
-    { "min": 85, "score": 2100 },
-    { "min": 84, "score": 830 },
-    { "min": 83, "score": 410 },
-    { "min": 82, "score": 340 },
-    { "min": 81, "score": 280 },
-    { "min": 80, "score": 180 },
-    { "min": 79, "score": 160 },
-    { "min": 78, "score": 140 },
-    { "min": 77, "score": 120 },
-    { "min": 76, "score": 100 },
-    { "min": 75, "score": 90 },
-    { "min": 65, "score": 35 },
-    { "min": 45, "score": 20 },
-    { "min": 0, "score": 0 }
+    {
+      "min": 99,
+      "score": 100000
+    },
+    {
+      "min": 98,
+      "score": 90000
+    },
+    {
+      "min": 97,
+      "score": 85000
+    },
+    {
+      "min": 96,
+      "score": 55000
+    },
+    {
+      "min": 95,
+      "score": 40000
+    },
+    {
+      "min": 94,
+      "score": 30000
+    },
+    {
+      "min": 93,
+      "score": 25000
+    },
+    {
+      "min": 92,
+      "score": 20000
+    },
+    {
+      "min": 91,
+      "score": 19000
+    },
+    {
+      "min": 90,
+      "score": 14000
+    },
+    {
+      "min": 89,
+      "score": 11000
+    },
+    {
+      "min": 88,
+      "score": 8300
+    },
+    {
+      "min": 87,
+      "score": 5500
+    },
+    {
+      "min": 86,
+      "score": 4100
+    },
+    {
+      "min": 85,
+      "score": 2100
+    },
+    {
+      "min": 84,
+      "score": 830
+    },
+    {
+      "min": 83,
+      "score": 410
+    },
+    {
+      "min": 82,
+      "score": 340
+    },
+    {
+      "min": 81,
+      "score": 280
+    },
+    {
+      "min": 80,
+      "score": 180
+    },
+    {
+      "min": 79,
+      "score": 160
+    },
+    {
+      "min": 78,
+      "score": 140
+    },
+    {
+      "min": 77,
+      "score": 120
+    },
+    {
+      "min": 76,
+      "score": 100
+    },
+    {
+      "min": 75,
+      "score": 90
+    },
+    {
+      "min": 65,
+      "score": 35
+    },
+    {
+      "min": 45,
+      "score": 20
+    },
+    {
+      "min": 0,
+      "score": 0
+    }
   ],
   "versionMultipliers": {
     "TOTW": 1.25,
@@ -36,64 +120,491 @@
   },
   "tags": [
     {
-      "id": "first-owner",
-      "name": "Premier propriétaire",
-      "match": { "kind": "firstOwner" },
-      "tiers": [{ "min": 5, "bonus": 1.5 }, { "min": 10, "bonus": 3 }, { "min": 20, "bonus": 5 }]
-    },
-    {
-      "id": "bronze",
-      "name": "Bronze",
-      "match": { "kind": "rating", "min": 45, "max": 64 },
-      "tiers": [{ "min": 5, "bonus": 0.2 }, { "min": 10, "bonus": 0.4 }, { "min": 20, "bonus": 0.8 }]
-    },
-    {
-      "id": "silver",
-      "name": "Argent",
-      "match": { "kind": "rating", "min": 65, "max": 74 },
-      "tiers": [{ "min": 5, "bonus": 0.15 }, { "min": 10, "bonus": 0.3 }, { "min": 20, "bonus": 0.6 }]
-    },
-    {
-      "id": "gold",
-      "name": "Or",
-      "match": { "kind": "rating", "min": 75, "max": 99 },
-      "tiers": [{ "min": 5, "bonus": 0.01 }, { "min": 10, "bonus": 0.02 }, { "min": 20, "bonus": 0.04 }]
-    },
-    {
-      "id": "icons",
-      "name": "ICÔNES",
-      "match": { "kind": "version", "value": "ICÔNE" },
-      "tiers": [{ "min": 2, "bonus": 0.1 }, { "min": 4, "bonus": 0.15 }, { "min": 6, "bonus": 0.25 }]
-    },
-    {
-      "id": "heroes",
-      "name": "Héros",
-      "match": { "kind": "version", "value": "Héros" },
-      "tiers": [{ "min": 2, "bonus": 0.08 }, { "min": 4, "bonus": 0.12 }, { "min": 6, "bonus": 0.2 }]
-    },
-    {
-      "id": "totw",
-      "name": "TOTW",
-      "match": { "kind": "version", "value": "TOTW" },
-      "tiers": [{ "min": 3, "bonus": 0.04 }, { "min": 6, "bonus": 0.08 }, { "min": 10, "bonus": 0.15 }]
-    },
-    {
-      "id": "same-league",
-      "name": "Même ligue",
-      "match": { "kind": "sameLeague" },
-      "tiers": [{ "min": 5, "bonus": 0.01 }, { "min": 10, "bonus": 0.02 }, { "min": 20, "bonus": 0.08 }]
-    },
-    {
-      "id": "same-nation",
+      "id": "futgg-3",
       "name": "Même nation",
-      "match": { "kind": "sameNation" },
-      "tiers": [{ "min": 5, "bonus": 0.01 }, { "min": 10, "bonus": 0.02 }, { "min": 20, "bonus": 0.04 }]
+      "match": {
+        "kind": "same",
+        "attribute": "nation"
+      },
+      "tiers": [
+        {
+          "min": 5,
+          "bonus": 0.01
+        },
+        {
+          "min": 10,
+          "bonus": 0.02
+        },
+        {
+          "min": 20,
+          "bonus": 0.04
+        }
+      ]
     },
     {
-      "id": "same-club",
+      "id": "futgg-17",
+      "name": "Nations différentes",
+      "match": {
+        "kind": "different",
+        "attribute": "nation"
+      },
+      "tiers": [
+        {
+          "min": 5,
+          "bonus": 0.01
+        },
+        {
+          "min": 10,
+          "bonus": 0.02
+        },
+        {
+          "min": 20,
+          "bonus": 0.04
+        }
+      ]
+    },
+    {
+      "id": "futgg-8",
       "name": "Même club",
-      "match": { "kind": "sameClub" },
-      "tiers": [{ "min": 5, "bonus": 0.01 }, { "min": 10, "bonus": 0.02 }, { "min": 20, "bonus": 0.04 }]
+      "match": {
+        "kind": "same",
+        "attribute": "club"
+      },
+      "tiers": [
+        {
+          "min": 5,
+          "bonus": 0.01
+        },
+        {
+          "min": 10,
+          "bonus": 0.02
+        },
+        {
+          "min": 20,
+          "bonus": 0.04
+        }
+      ]
+    },
+    {
+      "id": "futgg-14",
+      "name": "Clubs différents",
+      "match": {
+        "kind": "different",
+        "attribute": "club"
+      },
+      "tiers": [
+        {
+          "min": 5,
+          "bonus": 0.01
+        },
+        {
+          "min": 10,
+          "bonus": 0.02
+        },
+        {
+          "min": 20,
+          "bonus": 0.04
+        }
+      ]
+    },
+    {
+      "id": "futgg-16",
+      "name": "Même ligue",
+      "match": {
+        "kind": "same",
+        "attribute": "league"
+      },
+      "tiers": [
+        {
+          "min": 5,
+          "bonus": 0.01
+        },
+        {
+          "min": 10,
+          "bonus": 0.02
+        },
+        {
+          "min": 20,
+          "bonus": 0.08
+        }
+      ]
+    },
+    {
+      "id": "futgg-6",
+      "name": "Ligues différentes",
+      "match": {
+        "kind": "different",
+        "attribute": "league"
+      },
+      "tiers": [
+        {
+          "min": 5,
+          "bonus": 0.01
+        },
+        {
+          "min": 10,
+          "bonus": 0.02
+        },
+        {
+          "min": 20,
+          "bonus": 0.04
+        }
+      ]
+    },
+    {
+      "id": "futgg-4",
+      "name": "Bronze",
+      "match": {
+        "kind": "rating",
+        "min": 0,
+        "max": 64
+      },
+      "tiers": [
+        {
+          "min": 5,
+          "bonus": 0.2
+        },
+        {
+          "min": 10,
+          "bonus": 0.4
+        },
+        {
+          "min": 20,
+          "bonus": 0.8
+        }
+      ]
+    },
+    {
+      "id": "futgg-11",
+      "name": "Argent",
+      "match": {
+        "kind": "rating",
+        "min": 65,
+        "max": 74
+      },
+      "tiers": [
+        {
+          "min": 5,
+          "bonus": 0.15
+        },
+        {
+          "min": 10,
+          "bonus": 0.3
+        },
+        {
+          "min": 20,
+          "bonus": 0.6
+        }
+      ]
+    },
+    {
+      "id": "futgg-7",
+      "name": "Or",
+      "match": {
+        "kind": "rating",
+        "min": 75,
+        "max": 99
+      },
+      "tiers": [
+        {
+          "min": 5,
+          "bonus": 0.01
+        },
+        {
+          "min": 10,
+          "bonus": 0.02
+        },
+        {
+          "min": 20,
+          "bonus": 0.04
+        }
+      ]
+    },
+    {
+      "id": "futgg-12",
+      "name": "Holographique",
+      "match": {
+        "kind": "holographic"
+      },
+      "tiers": [
+        {
+          "min": 2,
+          "bonus": 0.08
+        },
+        {
+          "min": 4,
+          "bonus": 0.12
+        },
+        {
+          "min": 6,
+          "bonus": 0.2
+        }
+      ]
+    },
+    {
+      "id": "futgg-19",
+      "name": "ICÔNES",
+      "match": {
+        "kind": "rarity",
+        "ids": [
+          12
+        ]
+      },
+      "tiers": [
+        {
+          "min": 2,
+          "bonus": 0.1
+        },
+        {
+          "min": 4,
+          "bonus": 0.15
+        },
+        {
+          "min": 6,
+          "bonus": 0.25
+        }
+      ]
+    },
+    {
+      "id": "futgg-2",
+      "name": "Héros",
+      "match": {
+        "kind": "rarity",
+        "ids": [
+          72
+        ]
+      },
+      "tiers": [
+        {
+          "min": 2,
+          "bonus": 0.08
+        },
+        {
+          "min": 4,
+          "bonus": 0.12
+        },
+        {
+          "min": 6,
+          "bonus": 0.2
+        }
+      ]
+    },
+    {
+      "id": "futgg-18",
+      "name": "TOTW",
+      "match": {
+        "kind": "rarity",
+        "ids": [
+          3
+        ]
+      },
+      "tiers": [
+        {
+          "min": 3,
+          "bonus": 0.04
+        },
+        {
+          "min": 6,
+          "bonus": 0.08
+        },
+        {
+          "min": 10,
+          "bonus": 0.15
+        }
+      ]
+    },
+    {
+      "id": "futgg-1",
+      "name": "Premier propriétaire",
+      "match": {
+        "kind": "firstOwner"
+      },
+      "tiers": [
+        {
+          "min": 5,
+          "bonus": 1.5
+        },
+        {
+          "min": 10,
+          "bonus": 3
+        },
+        {
+          "min": 20,
+          "bonus": 5
+        }
+      ]
+    },
+    {
+      "id": "futgg-10",
+      "name": "Gardiens",
+      "match": {
+        "kind": "positions",
+        "values": [
+          "GK"
+        ]
+      },
+      "tiers": [
+        {
+          "min": 3,
+          "bonus": 0.03
+        },
+        {
+          "min": 6,
+          "bonus": 0.06
+        },
+        {
+          "min": 10,
+          "bonus": 0.15
+        }
+      ]
+    },
+    {
+      "id": "futgg-15",
+      "name": "Multiples",
+      "match": {
+        "kind": "same",
+        "attribute": "player"
+      },
+      "tiers": [
+        {
+          "min": 2,
+          "bonus": 0.1
+        },
+        {
+          "min": 3,
+          "bonus": 0.15
+        },
+        {
+          "min": 4,
+          "bonus": 0.2
+        }
+      ]
+    },
+    {
+      "id": "futgg-20",
+      "name": "Ambidextre",
+      "match": {
+        "kind": "minAttribute",
+        "attribute": "weakFoot",
+        "min": 5
+      },
+      "tiers": [
+        {
+          "min": 3,
+          "bonus": 0.03
+        },
+        {
+          "min": 5,
+          "bonus": 0.06
+        },
+        {
+          "min": 10,
+          "bonus": 0.12
+        }
+      ]
+    },
+    {
+      "id": "futgg-5",
+      "name": "Technique",
+      "match": {
+        "kind": "minAttribute",
+        "attribute": "skillMoves",
+        "min": 4
+      },
+      "tiers": [
+        {
+          "min": 3,
+          "bonus": 0.03
+        },
+        {
+          "min": 5,
+          "bonus": 0.06
+        },
+        {
+          "min": 10,
+          "bonus": 0.12
+        }
+      ]
+    },
+    {
+      "id": "futgg-21",
+      "name": "Mur défensif",
+      "match": {
+        "kind": "positions",
+        "values": [
+          "RB",
+          "CB",
+          "LB"
+        ]
+      },
+      "tiers": [
+        {
+          "min": 5,
+          "bonus": 0.03
+        },
+        {
+          "min": 10,
+          "bonus": 0.06
+        },
+        {
+          "min": 15,
+          "bonus": 0.1
+        }
+      ]
+    },
+    {
+      "id": "futgg-22",
+      "name": "Contrôle du milieu",
+      "match": {
+        "kind": "positions",
+        "values": [
+          "CDM",
+          "RM",
+          "CM",
+          "LM",
+          "CAM"
+        ]
+      },
+      "tiers": [
+        {
+          "min": 5,
+          "bonus": 0.03
+        },
+        {
+          "min": 10,
+          "bonus": 0.06
+        },
+        {
+          "min": 15,
+          "bonus": 0.1
+        }
+      ]
+    },
+    {
+      "id": "futgg-23",
+      "name": "Attaque totale",
+      "match": {
+        "kind": "positions",
+        "values": [
+          "ST",
+          "LW",
+          "RW"
+        ]
+      },
+      "tiers": [
+        {
+          "min": 5,
+          "bonus": 0.03
+        },
+        {
+          "min": 10,
+          "bonus": 0.06
+        },
+        {
+          "min": 15,
+          "bonus": 0.1
+        }
+      ]
     }
   ]
 }
