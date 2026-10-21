@@ -42,3 +42,6 @@ next-env.d.ts
 
 # Config locale de Claude (aperçu du site)
 /.claude/
+
+# Captures du mode découverte de l extension (données personnelles possibles)
+/captures/

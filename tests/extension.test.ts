@@ -6,6 +6,8 @@ import { runInNewContext } from "node:vm";
 // parse.js est un script classique d'extension : on l'exécute dans un bac à sable
 type Item = { itemId: number; cardId: number; rating: number; firstOwner: boolean; loan: boolean };
 type Album27 = {
+  isDiscoveryUrl: (url: string) => boolean;
+  pathOf: (url: string) => string;
   isClubUrl: (url: string) => boolean;
   extractPlayers: (data: unknown) => Item[];
   toClubText: (items: Item[]) => string;
@@ -13,7 +15,7 @@ type Album27 = {
 const sandbox: { Album27?: Album27; globalThis?: unknown } = {};
 sandbox.globalThis = sandbox;
 runInNewContext(readFileSync(new URL("../extension/parse.js", import.meta.url), "utf8"), sandbox);
-const { isClubUrl, toClubText } = sandbox.Album27!;
+const { isClubUrl, toClubText, isDiscoveryUrl, pathOf } = sandbox.Album27!;
 // Les objets créés dans le bac à sable ont un autre prototype : on les recopie
 const extractPlayers = (data: unknown): Item[] =>
   JSON.parse(JSON.stringify(sandbox.Album27!.extractPlayers(data)));
@@ -57,4 +59,16 @@ test("texte du club : étoile pour le premier propriétaire, prêts exclus, une 
     { itemId: 4, cardId: 50003, rating: 80, firstOwner: true, loan: true },
   ];
   assert.equal(toClubText(items), "50001*, 50002");
+});
+
+test("mode découverte : données du jeu oui, marché et compte non", () => {
+  const base = "https://utas.example.ea.com/ut/game/fc27";
+  assert.equal(isDiscoveryUrl(`${base}/gallery/sets`), true);
+  assert.equal(isDiscoveryUrl(`${base}/club?count=91`), true);
+  assert.equal(isDiscoveryUrl(`${base}/storagepile`), true);
+  assert.equal(isDiscoveryUrl(`${base}/transfermarket?num=21`), false);
+  assert.equal(isDiscoveryUrl(`${base}/user/credits`), false);
+  assert.equal(isDiscoveryUrl(`${base}/usermassinfo`), false);
+  assert.equal(isDiscoveryUrl("https://www.ea.com/fr/news"), false);
+  assert.equal(pathOf(`${base}/club?count=91&start=0`), "/ut/game/fc27/club");
 });

@@ -3,9 +3,17 @@
 // (collector.js). Ne modifie rien, n'envoie aucune requête, ne lit aucun mot de passe.
 
 (function () {
-  const { isClubUrl, extractPlayers } = globalThis.Album27;
+  const { isClubUrl, extractPlayers, isDiscoveryUrl, pathOf } = globalThis.Album27;
 
   function forward(url, data) {
+    if (isDiscoveryUrl(url)) {
+      // Pour le mode découverte (le collecteur ne garde que si le mode est activé)
+      window.postMessage(
+        { source: "album27-webapp", type: "raw", path: pathOf(url), body: data },
+        window.location.origin,
+      );
+    }
+    if (!isClubUrl(url)) return;
     const items = extractPlayers(data);
     if (items.length > 0) {
       window.postMessage({ source: "album27-webapp", type: "items", items }, window.location.origin);
@@ -18,7 +26,7 @@
     const response = await originalFetch.apply(this, args);
     try {
       const url = typeof args[0] === "string" ? args[0] : args[0] && args[0].url;
-      if (isClubUrl(url)) {
+      if (isClubUrl(url) || isDiscoveryUrl(url)) {
         // clone() : on lit une copie, la Web App garde la réponse intacte
         response
           .clone()
@@ -40,7 +48,7 @@
   };
   const originalSend = XMLHttpRequest.prototype.send;
   XMLHttpRequest.prototype.send = function (...args) {
-    if (isClubUrl(this.album27Url)) {
+    if (isClubUrl(this.album27Url) || isDiscoveryUrl(this.album27Url)) {
       this.addEventListener("load", () => {
         try {
           const data = this.responseType === "json" ? this.response : JSON.parse(this.responseText);

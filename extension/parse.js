@@ -68,5 +68,25 @@
     return [...byCard].map(([id, firstOwner]) => (firstOwner ? `${id}*` : String(id))).join(", ");
   }
 
-  root.Album27 = { isClubUrl, extractPlayers, toClubText };
+  // Mode découverte : réponses du jeu utiles pour comprendre le format des données
+  // (Galerie, club...). On exclut le marché et tout ce qui concerne le compte
+  // (pseudo, crédits, réglages, connexion).
+  const GAME_URL = /\/ut\/game\/[^/]+\//i;
+  const PRIVATE_URL = /transfermarket|watchlist|tradepile|\/user|usermassinfo|settings|auth|token|purchase(?!d)|store|bid|sell|message|notification/i;
+
+  function isDiscoveryUrl(url) {
+    const text = String(url || "");
+    return GAME_URL.test(text) && !PRIVATE_URL.test(text);
+  }
+
+  // Chemin sans les paramètres : "/ut/game/fc27/club?count=91" -> "/ut/game/fc27/club"
+  function pathOf(url) {
+    try {
+      return new URL(String(url), "https://example.com").pathname;
+    } catch {
+      return String(url).split("?")[0];
+    }
+  }
+
+  root.Album27 = { isClubUrl, extractPlayers, toClubText, isDiscoveryUrl, pathOf };
 })(globalThis);

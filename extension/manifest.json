@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Album27 – import du club",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Importe ton club EA FC 27 dans Album27 en lisant ce que la Web App affiche. Aucune action automatique, aucun mot de passe.",
   "permissions": ["storage"],
   "action": {

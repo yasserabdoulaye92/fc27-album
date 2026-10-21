@@ -16,6 +16,10 @@
   window.addEventListener("message", (event) => {
     const message = event.data;
     if (event.source !== window || !message || message.source !== "album27-webapp") return;
+    if (message.type === "raw") {
+      saveRaw(message.path, message.body);
+      return;
+    }
     if (message.type !== "items" || !Array.isArray(message.items)) return;
 
     let added = 0;
@@ -29,6 +33,23 @@
       render();
     }
   });
+
+  // ---------- Mode découverte ----------
+  // Garde la dernière réponse de chaque adresse du jeu, si le mode est activé dans la
+  // fenêtre de l'extension. Limité en taille pour ne pas remplir le navigateur.
+  const MAX_BODY = 300000; // caractères
+  const MAX_PATHS = 40;
+
+  async function saveRaw(path, body) {
+    const { discovery, raw = {} } = await chrome.storage.local.get(["discovery", "raw"]);
+    if (!discovery || typeof path !== "string") return;
+    let text = JSON.stringify(body);
+    if (text.length > MAX_BODY) text = text.slice(0, MAX_BODY);
+    raw[path] = { at: Date.now(), body: text };
+    const paths = Object.keys(raw).sort((a, b) => raw[b].at - raw[a].at);
+    for (const old of paths.slice(MAX_PATHS)) delete raw[old];
+    await chrome.storage.local.set({ raw });
+  }
 
   // ---------- Badge ----------
   // Dans un "shadow DOM" pour que les styles de la Web App ne le dérèglent pas (et inversement)
