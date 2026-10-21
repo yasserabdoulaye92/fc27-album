@@ -13,7 +13,8 @@ son budget en crédits.
 
 ## Fonctionnalités
 
-- **Import du club** : liste d'ids ou CSV, avec marquage des cartes
+- **Import du club** : en un clic avec l'[extension](extension/) (lecture seule de la
+  Web App EA, sans mot de passe), ou par liste d'ids / CSV, avec les cartes
   **premier propriétaire** (`12*` ou colonne `premier_proprietaire`).
 - **Score fidèle au jeu** : barème par note, multiplicateurs de version (Héros, TOTW,
   ICÔNE…) et **tags** en pourcentage (premier propriétaire jusqu'à +500 %, bronze,
@@ -83,6 +84,7 @@ Puis ouvrir http://localhost:3000. Sous Windows, on peut aussi double-cliquer su
 | `lib/csv-import.ts`     | Conversion de tableurs CSV en données (`scripts/import-csv.ts`) |
 | `app/`                  | Pages et composants (Next.js) |
 | `tests/`                | Tests automatiques (`node --test`, sans dépendance) |
+| `extension/`            | Extension navigateur d'import du club |
 
 Stack : [Next.js](https://nextjs.org) (App Router), TypeScript, Tailwind CSS.
 

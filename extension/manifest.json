@@ -1,0 +1,35 @@
+{
+  "manifest_version": 3,
+  "name": "Album27 – import du club",
+  "version": "0.1.0",
+  "description": "Importe ton club EA FC 27 dans Album27 en lisant ce que la Web App affiche. Aucune action automatique, aucun mot de passe.",
+  "permissions": ["storage"],
+  "action": {
+    "default_title": "Album27",
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.ea.com/ea-sports-fc/ultimate-team/web-app/*",
+        "https://www.ea.com/*/ea-sports-fc/ultimate-team/web-app/*"
+      ],
+      "js": ["parse.js", "inject.js"],
+      "run_at": "document_start",
+      "world": "MAIN"
+    },
+    {
+      "matches": [
+        "https://www.ea.com/ea-sports-fc/ultimate-team/web-app/*",
+        "https://www.ea.com/*/ea-sports-fc/ultimate-team/web-app/*"
+      ],
+      "js": ["parse.js", "collector.js"],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": ["http://localhost:3000/*", "https://fc27-album.vercel.app/*"],
+      "js": ["site.js"],
+      "run_at": "document_start"
+    }
+  ]
+}

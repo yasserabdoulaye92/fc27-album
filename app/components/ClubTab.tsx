@@ -42,6 +42,10 @@ export default function ClubTab({ clubText, onChange, club, players }: Props) {
           virgules ou des retours à la ligne, ou un CSV avec une colonne <Code>id</Code> ou{" "}
           <Code>nom</Code>.
         </p>
+        <p className="text-sm text-zinc-400">
+          Plus simple : l&apos;<strong className="text-zinc-200">extension Album27</strong> importe ton
+          club depuis la Web App EA, étoiles comprises (voir le dossier <Code>extension</Code> du projet).
+        </p>
         <p className="rounded-xl bg-amber-400/10 p-3 text-sm text-amber-200">
           <strong>★ Premier propriétaire</strong> : ajoute une étoile après l&apos;id (<Code>12*</Code>)
           pour une carte obtenue en pack, objectif ou DCE. Ça donne jusqu&apos;à +500 % de score.

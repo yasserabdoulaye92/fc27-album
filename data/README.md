@@ -17,7 +17,7 @@ Le site relit ces fichiers à chaque rechargement de page quand `npm run dev` to
 
 | Champ     | Exemple           | Signification                              |
 |-----------|-------------------|--------------------------------------------|
-| `id`      | `1`               | Identifiant unique (nombre)                |
+| `id`      | `1`               | Identifiant unique (nombre). Mets l'**identifiant EA** de la carte (`definitionId`) pour que l'extension reconnaisse ton club |
 | `name`    | `"Lucas Ferrand"` | Nom affiché                                |
 | `club`    | `"Club Alpha"`    | Club                                       |
 | `league`  | `"Ligue Démo"`    | Ligue                                      |

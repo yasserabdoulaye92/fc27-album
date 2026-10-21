@@ -61,6 +61,32 @@ export default function App({ players, sets, config, rules, photos }: Props) {
     }
   }, []);
 
+  // Club envoyé par l'extension navigateur (voir extension/site.js)
+  const [notice, setNotice] = useState<string | null>(null);
+  useEffect(() => {
+    const origin = window.location.origin;
+    const ready = () => window.postMessage({ source: "album27-site", type: "ready" }, origin);
+
+    function onMessage(event: MessageEvent) {
+      const message = event.data;
+      if (event.source !== window || event.origin !== origin) return;
+      if (!message || message.source !== "album27-extension") return;
+      if (message.type === "hello") ready();
+      if (message.type === "club" && typeof message.text === "string") {
+        setClubText(message.text);
+        save(CLUB_KEY, message.text);
+        setTab("album");
+        save(TAB_KEY, "album");
+        const count = message.text.split(",").filter((s: string) => s.trim() !== "").length;
+        setNotice(`Club importé depuis l'extension : ${count} carte${count > 1 ? "s" : ""}.`);
+      }
+    }
+
+    window.addEventListener("message", onMessage);
+    ready();
+    return () => window.removeEventListener("message", onMessage);
+  }, []);
+
   function updateClub(text: string) {
     setClubText(text);
     save(CLUB_KEY, text);
@@ -124,6 +150,14 @@ export default function App({ players, sets, config, rules, photos }: Props) {
       </header>
 
       <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-6">
+        {notice && (
+          <div className="mb-5 flex items-center justify-between gap-3 rounded-xl bg-emerald-400/10 px-4 py-3 text-sm text-emerald-200">
+            <span>✓ {notice}</span>
+            <button type="button" onClick={() => setNotice(null)} className="text-emerald-300/70 hover:text-emerald-200">
+              ✕
+            </button>
+          </div>
+        )}
         {tab === "album" && club.ownedIds.size === 0 && (
           <button
             type="button"

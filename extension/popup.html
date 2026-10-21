@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <title>Album27</title>
+    <style>
+      body {
+        width: 300px;
+        margin: 0;
+        padding: 16px;
+        background: #09090b;
+        color: #f4f4f5;
+        font: 14px system-ui, sans-serif;
+      }
+      h1 { margin: 0 0 4px; font-size: 16px }
+      .muted { color: #a1a1aa; font-size: 12px; line-height: 1.5 }
+      .stats { display: flex; gap: 8px; margin: 14px 0 }
+      .stat { flex: 1; padding: 8px 10px; border-radius: 10px; background: rgba(255,255,255,.05) }
+      .stat strong { display: block; font-size: 18px }
+      button { width: 100%; margin-top: 8px; padding: 9px; border: 0; border-radius: 10px;
+        font: 600 13px system-ui, sans-serif; cursor: pointer }
+      .primary { background: #10b981; color: #022c22 }
+      .secondary { background: rgba(255,255,255,.08); color: #f4f4f5 }
+      button:disabled { opacity: .4; cursor: default }
+      label { display: block; margin-top: 14px; font-size: 12px; color: #a1a1aa }
+      input { width: 100%; box-sizing: border-box; margin-top: 4px; padding: 7px 9px; border-radius: 8px;
+        border: 1px solid rgba(255,255,255,.12); background: #18181b; color: #f4f4f5 }
+      ol { margin: 10px 0 0; padding-left: 18px }
+    </style>
+  </head>
+  <body>
+    <h1>Album27 · import du club</h1>
+    <p class="muted">L'extension lit seulement ce que la Web App affiche. Elle ne fait aucune action à ta place et ne voit jamais ton mot de passe.</p>
+
+    <div class="stats">
+      <div class="stat"><strong id="cards">0</strong><span class="muted">cartes</span></div>
+      <div class="stat"><strong id="first-owner">0</strong><span class="muted">★ 1er proprio</span></div>
+    </div>
+
+    <button id="send" class="primary">Envoyer vers le site</button>
+    <button id="copy" class="secondary">Copier la liste</button>
+    <button id="clear" class="secondary">Tout effacer</button>
+
+    <ol class="muted">
+      <li>Ouvre la Web App FC 27 et connecte-toi.</li>
+      <li>Va dans Club → Joueurs et fais défiler toutes les pages.</li>
+      <li>Clique sur « Envoyer vers le site ».</li>
+    </ol>
+
+    <label>Adresse du site
+      <input id="site-url" type="url" />
+    </label>
+    <p id="status" class="muted"></p>
+
+    <script src="parse.js"></script>
+    <script src="popup.js"></script>
+  </body>
+</html>
