@@ -81,11 +81,9 @@
 
   // Chemin sans les paramètres : "/ut/game/fc27/club?count=91" -> "/ut/game/fc27/club"
   function pathOf(url) {
-    try {
-      return new URL(String(url), "https://example.com").pathname;
-    } catch {
-      return String(url).split("?")[0];
-    }
+    return String(url || "")
+      .replace(/^[a-z]+:\/\/[^/]+/i, "") // enlève "https://domaine"
+      .split(/[?#]/)[0]; // enlève les paramètres
   }
 
   root.Album27 = { isClubUrl, extractPlayers, toClubText, isDiscoveryUrl, pathOf };
