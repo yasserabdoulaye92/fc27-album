@@ -85,3 +85,37 @@ export function Stat({
     </div>
   );
 }
+
+// Titre de section en lettres capitales (police "stade")
+export function SectionTitle({ children }: { children: ReactNode }) {
+  return (
+    <h2 className="font-display text-sm font-bold uppercase tracking-[0.2em] text-zinc-500">{children}</h2>
+  );
+}
+
+// Case pour saisir les jetons que tu as déjà en poche
+export function BalanceInput({
+  value,
+  onChange,
+  label = "Jetons en poche",
+}: {
+  value: number;
+  onChange: (value: number) => void;
+  label?: string;
+}) {
+  return (
+    <label className="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-black/40 py-1.5 pl-3 pr-1.5 text-sm">
+      <span className="text-zinc-400">{label}</span>
+      <TokenIcon />
+      <input
+        type="number"
+        min={0}
+        inputMode="numeric"
+        value={value === 0 ? "" : value}
+        placeholder="0"
+        onChange={(e) => onChange(Math.max(0, Math.floor(Number(e.target.value) || 0)))}
+        className="w-20 rounded-lg bg-white/5 px-2 py-1 text-right font-semibold text-amber-300 outline-none focus:bg-white/10"
+      />
+    </label>
+  );
+}

@@ -121,7 +121,18 @@ export default function Planner({ club, players, sets, config, rules }: Props) {
   );
 }
 
-function PlanResult({ plan, rules, goal }: { plan: Plan; rules: Rules; goal?: number }) {
+// Affichage d'un plan. "compact" : version courte (sans message d'objectif ni détails techniques)
+export function PlanResult({
+  plan,
+  rules,
+  goal,
+  compact = false,
+}: {
+  plan: Plan;
+  rules: Rules;
+  goal?: number;
+  compact?: boolean;
+}) {
   if (plan.steps.length === 0) {
     return (
       <Panel className="text-center text-amber-200">
@@ -140,7 +151,7 @@ function PlanResult({ plan, rules, goal }: { plan: Plan; rules: Rules; goal?: nu
 
   return (
     <div className="flex flex-col gap-5">
-      {goal !== undefined && (
+      {goal !== undefined && !(compact && plan.goalReached) && (
         <p
           className={`rounded-xl px-4 py-3 text-sm font-medium ${
             plan.goalReached ? "bg-emerald-400/10 text-emerald-300" : "bg-red-500/10 text-red-300"
@@ -152,20 +163,29 @@ function PlanResult({ plan, rules, goal }: { plan: Plan; rules: Rules; goal?: nu
         </p>
       )}
 
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
-        <Stat label="Jetons" value={`+${formatNumber(plan.tokens)}`} tone="gold" icon={<TokenIcon className="h-5 w-5" />} />
-        <Stat label="Crédits à avancer" value={formatCredits(plan.credits)} />
-        <Stat label="Perte de taxe" value={formatCredits(plan.taxLoss)} />
-        <Stat label="Transferts" value={formatNumber(plan.transfers)} />
-        <Stat label="Sets" value={formatNumber(plan.steps.length)} />
-        <Stat
-          label="Perte / jeton"
-          value={`${formatNumber(lossPerToken)} cr`}
-          tone={profitable ? "good" : "bad"}
-        />
-      </div>
+      {compact ? (
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+          <Stat label="Perte de taxe" value={formatCredits(plan.taxLoss)} tone={profitable ? "good" : "bad"} />
+          <Stat label="Crédits à avancer" value={formatCredits(plan.credits)} />
+          <Stat label="Sets" value={formatNumber(plan.steps.length)} />
+          <Stat label="Achats" value={formatNumber(plan.transfers)} />
+        </div>
+      ) : (
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+          <Stat label="Jetons" value={`+${formatNumber(plan.tokens)}`} tone="gold" icon={<TokenIcon className="h-5 w-5" />} />
+          <Stat label="Crédits à avancer" value={formatCredits(plan.credits)} />
+          <Stat label="Perte de taxe" value={formatCredits(plan.taxLoss)} />
+          <Stat label="Transferts" value={formatNumber(plan.transfers)} />
+          <Stat label="Sets" value={formatNumber(plan.steps.length)} />
+          <Stat
+            label="Perte / jeton"
+            value={`${formatNumber(lossPerToken)} cr`}
+            tone={profitable ? "good" : "bad"}
+          />
+        </div>
+      )}
 
-      <div className="grid gap-5 lg:grid-cols-2">
+      <div className={`grid gap-5 ${compact ? "xl:grid-cols-2" : "lg:grid-cols-2"}`}>
         <Panel>
           <h3 className="mb-3 font-bold">Sets à faire</h3>
           <ol className="flex flex-col gap-2">
@@ -220,7 +240,7 @@ function PlanResult({ plan, rules, goal }: { plan: Plan; rules: Rules; goal?: nu
         </Panel>
       </div>
 
-      <p className="text-xs text-zinc-600">
+      <p className={`text-xs text-zinc-600 ${compact ? "hidden" : ""}`}>
         Méthode retenue :{" "}
         {plan.method === "greedy"
           ? "gloutonne (meilleur ratio jetons / crédits à chaque étape)"

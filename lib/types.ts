@@ -75,6 +75,17 @@ export type ScoreConfig = {
   tags: TagRule[];
 };
 
+// ---------- data/rewards.json ----------
+
+// Récompense de la boutique de jetons de l'album
+export type Reward = {
+  id: string;
+  name: string;
+  type: "hall-of-fut" | "kit";
+  rating?: number; // note (joueurs Hall of FUT)
+  cost: number; // prix en jetons
+};
+
 // ---------- data/rules.json ----------
 
 export type Rules = {

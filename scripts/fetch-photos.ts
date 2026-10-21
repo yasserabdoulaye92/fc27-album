@@ -12,6 +12,7 @@ import type { Player, PlayerPhoto } from "../lib/types.ts";
 
 const PLAYERS_FILE = "data/players.json";
 const PHOTOS_FILE = "data/photos.json";
+const REWARDS_FILE = "data/rewards.json";
 // Wikimedia demande d'identifier les programmes qui utilisent son API
 const USER_AGENT = "Album27/0.1 (https://github.com/yasserabdoulaye92/fc27-album)";
 // Sur Wikidata, "footballeur" = Q937857 : sert à écarter les homonymes
@@ -104,7 +105,15 @@ async function describeFile(file: string): Promise<PlayerPhoto | null> {
   };
 }
 
-const names = [...new Set(players.map((p) => p.name))].filter((name) => !(name in photos));
+// Les joueurs Hall of FUT de la boutique de jetons ont aussi besoin d'une photo
+const rewards: { name: string; type: string }[] = existsSync(REWARDS_FILE)
+  ? JSON.parse(readFileSync(REWARDS_FILE, "utf8"))
+  : [];
+const rewardPlayers = rewards.filter((r) => r.type === "hall-of-fut").map((r) => r.name);
+
+const names = [...new Set([...players.map((p) => p.name), ...rewardPlayers])].filter(
+  (name) => !(name in photos),
+);
 console.log(`${names.length} joueur(s) à chercher…`);
 
 for (const name of names) {

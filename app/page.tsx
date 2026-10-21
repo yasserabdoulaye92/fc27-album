@@ -7,7 +7,8 @@ import setsData from "@/data/sets.json";
 import rulesData from "@/data/rules.json";
 import scoresData from "@/data/scores.json";
 import photosData from "@/data/photos.json";
-import type { AlbumSet, Player, PlayerPhoto, Rules, ScoreConfig } from "@/lib/types";
+import rewardsData from "@/data/rewards.json";
+import type { AlbumSet, Player, PlayerPhoto, Reward, Rules, ScoreConfig } from "@/lib/types";
 
 // On précise à TypeScript la forme des données lues dans les JSON.
 const players = playersData as Player[];
@@ -15,7 +16,8 @@ const sets = setsData as AlbumSet[];
 const config = scoresData as ScoreConfig;
 const rules = rulesData as Rules;
 const photos = photosData as Record<string, PlayerPhoto | null>;
+const rewards = rewardsData as Reward[];
 
 export default function Home() {
-  return <App players={players} sets={sets} config={config} rules={rules} photos={photos} />;
+  return <App players={players} sets={sets} config={config} rules={rules} photos={photos} rewards={rewards} />;
 }
