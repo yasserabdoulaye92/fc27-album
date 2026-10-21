@@ -86,15 +86,28 @@ Puis ouvrir http://localhost:3000. Sous Windows, on peut aussi double-cliquer su
 | `tests/`                | Tests automatiques (`node --test`, sans dépendance) |
 | `extension/`            | Extension navigateur d'import du club |
 
-Stack : [Next.js](https://nextjs.org) (App Router), TypeScript, Tailwind CSS.
+Stack : [Next.js](https://nextjs.org) (App Router), TypeScript, Tailwind CSS,
+[Supabase](https://supabase.com) (comptes + base Postgres), hébergé sur Vercel.
+
+### Base de données (Supabase)
+
+Le schéma est dans [`supabase/migrations/`](supabase/migrations/) : profils, e-mails
+autorisés, club et réglages de chaque utilisateur, avec Row Level Security (chacun ne
+voit et ne modifie que ses propres données, et seulement si son e-mail est autorisé).
+Le premier compte autorisé devient admin et gère la liste des accès depuis « Mon compte ».
+
+Pour utiliser ton propre projet Supabase : applique la migration, puis définis
+`NEXT_PUBLIC_SUPABASE_URL` et `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`.
 
 ## Feuille de route
 
 - [x] **Étape 1** — Import du club et analyse de chaque set
 - [x] **Étape 2** — Planificateur (budget, objectif, limites)
 - [x] Import de vraies données (joueurs, sets, prix) depuis un CSV (`npm run import`)
-- [ ] **Étape 3** — Comptes et base de données (Supabase)
-- [ ] **Étape 4** — Mise en ligne (Vercel)
+- [x] **Étape 3a** — Comptes (lien magique), club sauvegardé, accès sur liste d'e-mails (Supabase)
+- [ ] **Étape 3b** — Joueurs, sets et prix en base + page admin d'import
+- [x] **Étape 4** — Mise en ligne : https://fc27-album.vercel.app
+- [x] Boutique de jetons : joueurs Hall of FUT et combinaisons de sets pour les obtenir
 - [ ] Tags de poste (Mur défensif, Attaque totale…) et Multiples
 
 ## Contribuer

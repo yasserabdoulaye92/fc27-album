@@ -8,12 +8,14 @@ import { parseClub } from "@/lib/club";
 import { planForReward } from "@/lib/rewards";
 import type { AlbumSet, Player, Reward, Rules, ScoreConfig } from "@/lib/types";
 import AlbumTab, { remainingTokens } from "./AlbumTab";
+import AccountButton from "./AccountButton";
 import ClubTab from "./ClubTab";
 import HomeTab from "./HomeTab";
 import { PhotosProvider, type Photos } from "./photos";
 import PhotoCredits from "./PhotoCredits";
 import RewardsTab from "./RewardsTab";
 import { TokenIcon } from "./ui";
+import { useAccount } from "./useAccount";
 
 // Clés sous lesquelles on garde des préférences dans le navigateur (localStorage)
 const CLUB_KEY = "fc27-album:club";
@@ -129,6 +131,13 @@ export default function App({ players, sets, config, rules, photos, rewards }: P
     [goal, club, balance, sets, players, config, rules],
   );
 
+  // Compte Supabase : à la connexion, les données du compte remplacent celles du navigateur
+  const account = useAccount({ club, balance, goalId }, (remote) => {
+    updateClub(remote.clubText);
+    updateBalance(remote.balance);
+    if (remote.goalId && rewards.some((r) => r.id === remote.goalId)) updateGoal(remote.goalId);
+  });
+
   const tokensLeft = analyses.reduce((total, a) => total + remainingTokens(a, rules), 0);
   const setsDone = analyses.filter((a) => a.tiers.every((t) => t.reached)).length;
 
@@ -162,10 +171,13 @@ export default function App({ players, sets, config, rules, photos, rewards }: P
               ))}
             </nav>
 
-            <span className="ml-auto flex items-center gap-1.5 font-display text-xl font-bold text-amber-300" title="Jetons en poche">
-              <TokenIcon />
-              {balance}
-            </span>
+            <div className="ml-auto flex items-center gap-4">
+              <span className="flex items-center gap-1.5 font-display text-xl font-bold text-amber-300" title="Jetons en poche">
+                <TokenIcon />
+                {balance}
+              </span>
+              <AccountButton account={account} />
+            </div>
           </div>
         </header>
 
