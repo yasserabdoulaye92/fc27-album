@@ -5,8 +5,8 @@ import { useEffect, useMemo, useState } from "react";
 import type { SetAnalysis, TierAnalysis } from "@/lib/album";
 import type { Rules } from "@/lib/types";
 import { formatCredits, formatNumber } from "./format";
-import PlayerCard, { PlayerGrid } from "./PlayerCard";
-import { Pill, ProgressBar, TierBadge, TokenIcon } from "./ui";
+import PlayerCard, { PlayerAvatar, PlayerGrid } from "./PlayerCard";
+import { TierBadge, TokenIcon } from "./ui";
 
 const TYPE_LABELS = { club: "Club", league: "Ligue", special: "Spécial" } as const;
 type TypeFilter = "all" | keyof typeof TYPE_LABELS;
@@ -118,62 +118,53 @@ function SetTile({
     <button
       type="button"
       onClick={onOpen}
-      className="group flex flex-col gap-4 rounded-2xl border border-white/10 bg-white/[0.03] p-4 text-left transition hover:-translate-y-0.5 hover:border-emerald-400/40 hover:bg-white/[0.06]"
+      className="flex flex-col gap-4 rounded-2xl border border-white/10 bg-white/[0.03] p-4 text-left transition hover:border-white/25 hover:bg-white/[0.05]"
     >
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
-          <Pill>
+          <h3 className="truncate text-base font-semibold">{set.name}</h3>
+          <p className="text-xs text-zinc-500">
             {TYPE_LABELS[set.type]} · {set.slots} places
-          </Pill>
-          <h3 className="mt-1.5 truncate text-lg font-bold">{set.name}</h3>
+          </p>
         </div>
-        <TierBadge name={currentTier?.name ?? null} size="lg" />
+        <TierBadge name={currentTier?.name ?? null} size="md" />
       </div>
 
-      <div className="flex flex-col gap-1.5">
-        <div className="flex justify-between text-xs text-zinc-400">
-          <span>
-            {lineup.length}/{set.slots} joueurs
-          </span>
-          {analysis.complete ? (
-            <span>
-              {formatNumber(lineupScore.total)} pts
-              {next && <span className="text-zinc-600"> / {formatNumber(next.tier.minScore)}</span>}
-            </span>
-          ) : (
-            <span className="text-amber-300/80">
-              il manque {set.slots - lineup.length} joueur{set.slots - lineup.length > 1 ? "s" : ""}
-            </span>
-          )}
+      {/* Ton équipe pour ce set, en photos */}
+      <div className="flex items-center">
+        <div className="flex -space-x-2">
+          {lineup.slice(0, 6).map((c) => (
+            <PlayerAvatar key={c.player.id} player={c.player} />
+          ))}
+          {Array.from({ length: Math.max(0, Math.min(6, set.slots) - lineup.length) }, (_, i) => (
+            <span
+              key={i}
+              className="inline-block h-9 w-9 rounded-full border border-dashed border-white/15 bg-zinc-950"
+            />
+          ))}
         </div>
-        <ProgressBar value={lineup.length} max={set.slots} />
+        <span className="ml-auto text-xs text-zinc-500">
+          {analysis.complete
+            ? `${formatNumber(lineupScore.total)}${next ? ` / ${formatNumber(next.tier.minScore)}` : ""} pts`
+            : `${lineup.length}/${set.slots} joueurs`}
+        </span>
       </div>
 
-      {/* Mini-échelle des paliers */}
-      <div className="flex gap-1">
-        {tiers.map((t) => (
-          <TierBadge key={t.tier.name} name={t.tier.name} size="sm" dimmed={!t.reached} />
-        ))}
-      </div>
-
-      <div className="mt-auto border-t border-white/5 pt-3 text-sm">
+      <div className="mt-auto text-sm">
         {done ? (
-          <span className="font-semibold text-emerald-400">✓ Set terminé</span>
+          <span className="text-emerald-400">Set terminé</span>
         ) : best ? (
           <div className="flex items-center justify-between gap-2">
-            <span className="flex items-center gap-1.5">
+            <span className="flex items-center gap-1.5 text-zinc-400">
               <TokenIcon />
-              <strong className="text-amber-300">+{best.tokens}</strong>
-              <span className="text-zinc-500">palier {best.tier.name}</span>
+              <strong className="text-amber-300">+{best.tokens}</strong> au palier {best.tier.name}
             </span>
-            <span className={best.profitable ? "text-emerald-400" : "text-red-400"}>
-              {formatCredits(best.taxLoss)} de perte
+            <span className={best.profitable ? "text-zinc-300" : "text-red-400"}>
+              {formatCredits(best.taxLoss)} perdus
             </span>
           </div>
         ) : (
-          <span className="text-zinc-500">
-            Pas atteignable avec les joueurs connus · {left} jetons
-          </span>
+          <span className="text-zinc-500">Pas atteignable · {left} jetons</span>
         )}
       </div>
     </button>
@@ -214,11 +205,11 @@ function SetDetail({ analysis, onClose }: { analysis: SetAnalysis; onClose: () =
       >
         <div className="flex items-start justify-between gap-4 border-b border-white/10 p-5">
           <div>
-            <Pill>
+            <h2 className="text-2xl font-bold">{set.name}</h2>
+            <p className="text-sm text-zinc-500">
               {TYPE_LABELS[set.type]} · {set.slots} places
-            </Pill>
-            <h2 className="mt-1.5 text-2xl font-bold">{set.name}</h2>
-            <p className="text-sm text-zinc-500">{eligibility || "Tous les joueurs"}</p>
+              {eligibility && !eligibility.endsWith(set.name) && ` · ${eligibility}`}
+            </p>
           </div>
           <button
             type="button"

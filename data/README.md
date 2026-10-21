@@ -1,6 +1,7 @@
 # Données de l'album
 
-Ces fichiers contiennent **des joueurs et des sets d'exemple inventés**. Le barème des
+Ces fichiers contiennent **des joueurs réels et des sets d'exemple**, avec des notes,
+des prix et des seuils **approximatifs** (à remplacer par les vraies données). Le barème des
 scores et les tags (`scores.json`) viennent de nos recherches (voir
 `docs/regles-album.md`) et sont à vérifier en jeu.
 Le site relit ces fichiers à chaque rechargement de page quand `npm run dev` tourne.
@@ -87,6 +88,16 @@ Le séparateur peut être `;` (Excel en français) ou `,`.
       groupe de cartes du même club / de la même ligue / de la même nation ;
   - `tiers` : à partir de `min` cartes concernées, `bonus` (1.5 = +150 %) appliqué
     au score de ces cartes.
+
+## `photos.json` — les photos des joueurs
+
+Générées automatiquement par `npm run photos` : pour chaque joueur de `players.json`,
+la commande cherche sur Wikidata un footballeur de ce nom et récupère sa photo sur
+**Wikimedia Commons** (photos libres de droits), avec l'auteur et la licence.
+Aucune image EA. Les crédits sont affichés sur le site (« Crédits photos » en bas de page).
+
+Relance `npm run photos` après un import de joueurs (`-- --force` pour tout rechercher).
+Si une photo est fausse (homonyme), corrige ou supprime l'entrée à la main.
 
 ## `rules.json` — les réglages généraux
 

@@ -14,6 +14,16 @@ export type Player = {
   price: number; // prix estimé en crédits
 };
 
+// ---------- data/photos.json ----------
+
+// Photo libre de droits d'un joueur (Wikimedia Commons), avec ses crédits
+export type PlayerPhoto = {
+  url: string; // adresse de l'image
+  author: string; // auteur à créditer
+  license: string; // ex. "CC BY-SA 4.0"
+  source: string; // page de la photo sur Commons
+};
+
 // ---------- data/sets.json ----------
 
 export type GradeTier = {

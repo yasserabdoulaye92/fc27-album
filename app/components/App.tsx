@@ -11,6 +11,8 @@ import AlbumTab, { remainingTokens } from "./AlbumTab";
 import ClubTab from "./ClubTab";
 import { formatNumber } from "./format";
 import Planner from "./Planner";
+import { PhotosProvider, type Photos } from "./photos";
+import PhotoCredits from "./PhotoCredits";
 import { TokenIcon } from "./ui";
 
 // Clés sous lesquelles on garde des préférences dans le navigateur (localStorage)
@@ -29,6 +31,7 @@ type Props = {
   sets: AlbumSet[];
   config: ScoreConfig;
   rules: Rules;
+  photos: Photos;
 };
 
 function save(key: string, value: string) {
@@ -39,7 +42,7 @@ function save(key: string, value: string) {
   }
 }
 
-export default function App({ players, sets, config, rules }: Props) {
+export default function App({ players, sets, config, rules, photos }: Props) {
   const [clubText, setClubText] = useState("");
   const [tab, setTab] = useState<TabId>("club");
 
@@ -80,6 +83,7 @@ export default function App({ players, sets, config, rules }: Props) {
   const finished = analyses.filter((a) => a.tiers.every((t) => t.reached)).length;
 
   return (
+    <PhotosProvider photos={photos}>
     <div className="flex min-h-full flex-col">
       <header className="sticky top-0 z-40 border-b border-white/10 bg-zinc-950/80 backdrop-blur">
         <div className="mx-auto flex max-w-6xl flex-wrap items-center gap-x-6 gap-y-2 px-4 py-3">
@@ -141,8 +145,10 @@ export default function App({ players, sets, config, rules }: Props) {
       </main>
 
       <footer className="border-t border-white/5 px-4 py-6 text-center text-xs text-zinc-600">
-        Projet open source indépendant, sans lien avec EA. Données d&apos;exemple inventées.
+        Projet open source indépendant, sans lien avec EA. Notes et prix d&apos;exemple
+        approximatifs. <PhotoCredits />
       </footer>
     </div>
+    </PhotosProvider>
   );
 }

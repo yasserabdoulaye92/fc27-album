@@ -7,8 +7,9 @@ Planificateur **open source** pour l'album (Galerie) d'EA FC 27 Ultimate Team :
 quels sets compléter, et jusqu'à quel palier, pour gagner le plus de jetons avec
 son budget en crédits.
 
-> Projet indépendant, sans lien avec EA. Aucune image ni donnée officielle :
-> les joueurs et les sets de `data/` sont des exemples inventés.
+> Projet indépendant, sans lien avec EA. Aucune image ni donnée officielle EA : les
+> photos viennent de Wikimedia Commons (licences libres, auteurs crédités) et les notes,
+> prix et seuils de `data/` sont des exemples approximatifs.
 
 ## Fonctionnalités
 
@@ -67,6 +68,7 @@ Puis ouvrir http://localhost:3000. Sous Windows, on peut aussi double-cliquer su
 | `npm run lint`      | Vérifie le style du code               |
 | `npm run build`     | Construit la version de production     |
 | `npm run import -- joueurs fichier.csv` | Importe des joueurs depuis un tableur |
+| `npm run photos`    | Récupère les photos libres des joueurs (Wikimedia) |
 
 ## Organisation du code
 

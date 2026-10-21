@@ -9,7 +9,8 @@
     "lint": "eslint",
     "test": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --test \"tests/**/*.test.ts\"",
     "typecheck": "next typegen && tsc --noEmit",
-    "import": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/import-csv.ts"
+    "import": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/import-csv.ts",
+    "photos": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/fetch-photos.ts"
   },
   "dependencies": {
     "next": "16.4.2",

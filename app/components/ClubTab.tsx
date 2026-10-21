@@ -8,7 +8,7 @@ import PlayerCard, { PlayerGrid } from "./PlayerCard";
 import { Panel } from "./ui";
 
 // Exemple : une étoile = carte premier propriétaire
-const EXAMPLE_CLUB = "1*, 2*, 3*, 5*, 19*, 7, 13";
+const EXAMPLE_CLUB = "3*, 5*, 9*, 11*, 13*, 14*, 20, 22, 23, 29";
 // Au-delà, on n'affiche pas toutes les cartes d'un coup (club de plusieurs centaines de joueurs)
 const PAGE_SIZE = 60;
 

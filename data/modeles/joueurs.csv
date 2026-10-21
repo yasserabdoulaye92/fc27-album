@@ -1,25 +1,32 @@
 id;nom;club;ligue;nation;note;version;prix
-1;Lucas Ferrand;Club Alpha;Ligue Démo;France;84;Or rare;1500
-2;Marco Bellini;Club Alpha;Ligue Démo;Italie;82;Or rare;900
-3;Tom Vasseur;Club Alpha;Ligue Démo;France;79;Or;300
-4;Diego Ramos;Club Alpha;Ligue Démo;Espagne;86;Or rare;4500
-5;Jonas Weber;Club Alpha;Ligue Démo;Allemagne;77;Or;250
-6;Karim Haddad;Club Alpha;Ligue Démo;Maroc;89;Or rare;21000
-19;Paul Girard;Club Alpha;Ligue Démo;France;75;Or;150
-21;Noah Petit;Club Alpha;Ligue Démo;Belgique;80;Or;350
-17;Rémi Dubois;Club Alpha;Ligue Démo;France;85;TOTW;6000
-7;Nils Andersen;Club Bravo;Ligue Démo;Danemark;83;Or rare;1200
-8;Pedro Costa;Club Bravo;Ligue Démo;Portugal;80;Or;400
-9;Samuel Okafor;Club Bravo;Ligue Démo;Nigeria;85;Or rare;3200
-10;Hugo Martin;Club Bravo;Ligue Démo;France;78;Or;200
-11;Ivan Petrov;Club Bravo;Ligue Démo;Croatie;81;Or rare;700
-12;Leo Schmidt;Club Bravo;Ligue Démo;Allemagne;87;Or rare;9500
-20;Max Keller;Club Bravo;Ligue Démo;Suisse;76;Or;150
-22;Sven Berg;Club Bravo;Ligue Démo;Suède;81;Or;400
-18;Ole Hansen;Club Bravo;Ligue Démo;Norvège;86;TOTW;9000
-13;Alain Mercier;Club Alpha;Ligue Démo;France;88;Héros;15000
-14;Bruno Silva;Club Bravo;Ligue Démo;Brésil;89;Héros;32000
-15;Erik Larsen;Club Alpha;Ligue Démo;Norvège;87;Héros;11000
-16;Yann Le Gall;Club Bravo;Ligue Démo;France;90;Héros;48000
-23;Ricardo Luz;ICÔNES;ICÔNES;Brésil;88;ICÔNE;90000
-24;Jean Moreau;ICÔNES;ICÔNES;France;87;ICÔNE;60000
+1;Ousmane Dembélé;Paris Saint-Germain;Ligue 1;France;90;Or rare;48000
+2;Achraf Hakimi;Paris Saint-Germain;Ligue 1;Maroc;89;Or rare;36000
+3;Vitinha;Paris Saint-Germain;Ligue 1;Portugal;88;Or rare;24000
+4;Khvicha Kvaratskhelia;Paris Saint-Germain;Ligue 1;Géorgie;87;Or rare;15000
+5;Marquinhos;Paris Saint-Germain;Ligue 1;Brésil;86;Or rare;7500
+6;Nuno Mendes;Paris Saint-Germain;Ligue 1;Portugal;86;Or rare;8000
+7;João Neves;Paris Saint-Germain;Ligue 1;Portugal;86;Or rare;7000
+8;Fabián Ruiz;Paris Saint-Germain;Ligue 1;Espagne;84;Or rare;2400
+9;Désiré Doué;Paris Saint-Germain;Ligue 1;France;84;Or rare;3000
+10;Willian Pacho;Paris Saint-Germain;Ligue 1;Équateur;84;Or rare;2200
+11;Bradley Barcola;Paris Saint-Germain;Ligue 1;France;83;Or rare;1500
+12;Lucas Chevalier;Paris Saint-Germain;Ligue 1;France;82;Or;900
+13;Warren Zaïre-Emery;Paris Saint-Germain;Ligue 1;France;81;Or rare;800
+14;Gonçalo Ramos;Paris Saint-Germain;Ligue 1;Portugal;81;Or;600
+20;Mason Greenwood;Olympique de Marseille;Ligue 1;Jamaïque;85;Or rare;5500
+21;Gerónimo Rulli;Olympique de Marseille;Ligue 1;Argentine;83;Or;1100
+22;Pierre-Emile Højbjerg;Olympique de Marseille;Ligue 1;Danemark;82;Or rare;900
+23;Leonardo Balerdi;Olympique de Marseille;Ligue 1;Argentine;81;Or;500
+24;Pierre-Emerick Aubameyang;Olympique de Marseille;Ligue 1;Gabon;81;Or rare;700
+25;Amine Gouiri;Olympique de Marseille;Ligue 1;Algérie;81;Or rare;650
+26;Benjamin Pavard;Olympique de Marseille;Ligue 1;France;80;Or;400
+27;Facundo Medina;Olympique de Marseille;Ligue 1;Argentine;80;Or;350
+28;Matt O'Riley;Olympique de Marseille;Ligue 1;Danemark;80;Or rare;450
+29;Igor Paixão;Olympique de Marseille;Ligue 1;Brésil;79;Or;300
+40;Ousmane Dembélé;Paris Saint-Germain;Ligue 1;France;91;TOTW;95000
+41;Mason Greenwood;Olympique de Marseille;Ligue 1;Jamaïque;86;TOTW;14000
+42;Vitinha;Paris Saint-Germain;Ligue 1;Portugal;89;TOTW;52000
+50;Zinedine Zidane;ICÔNES;ICÔNES;France;94;ICÔNE;1900000
+51;Thierry Henry;ICÔNES;ICÔNES;France;93;ICÔNE;1400000
+52;Ronaldinho;ICÔNES;ICÔNES;Brésil;92;ICÔNE;1100000
+53;Didier Drogba;ICÔNES;ICÔNES;Côte d'Ivoire;89;ICÔNE;350000

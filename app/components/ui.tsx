@@ -85,27 +85,3 @@ export function Stat({
     </div>
   );
 }
-
-// Petite étiquette arrondie
-export function Pill({ children, className = "" }: { children: ReactNode; className?: string }) {
-  return (
-    <span
-      className={`inline-flex items-center rounded-full bg-white/5 px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wide text-zinc-400 ${className}`}
-    >
-      {children}
-    </span>
-  );
-}
-
-// Barre de progression
-export function ProgressBar({ value, max }: { value: number; max: number }) {
-  const percent = max > 0 ? Math.min(100, Math.round((value / max) * 100)) : 0;
-  return (
-    <div className="h-1.5 overflow-hidden rounded-full bg-white/10">
-      <div
-        className="h-full rounded-full bg-gradient-to-r from-emerald-500 to-emerald-300"
-        style={{ width: `${percent}%` }}
-      />
-    </div>
-  );
-}

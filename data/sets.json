@@ -1,57 +1,7 @@
 [
-  {
-    "id": "club-alpha",
-    "name": "Club Alpha",
-    "type": "club",
-    "slots": 5,
-    "eligibility": { "club": "Club Alpha" },
-    "tiers": [
-      { "name": "D", "minScore": 500, "tokens": 5 },
-      { "name": "C", "minScore": 8000, "tokens": 10 },
-      { "name": "B", "minScore": 15000, "tokens": 15 },
-      { "name": "A", "minScore": 25000, "tokens": 25 },
-      { "name": "S", "minScore": 35000, "tokens": 40 }
-    ]
-  },
-  {
-    "id": "club-bravo",
-    "name": "Club Bravo",
-    "type": "club",
-    "slots": 5,
-    "eligibility": { "club": "Club Bravo" },
-    "tiers": [
-      { "name": "D", "minScore": 500, "tokens": 5 },
-      { "name": "C", "minScore": 5000, "tokens": 10 },
-      { "name": "B", "minScore": 12000, "tokens": 20 },
-      { "name": "A", "minScore": 25000, "tokens": 30 },
-      { "name": "S", "minScore": 40000, "tokens": 45 }
-    ]
-  },
-  {
-    "id": "ligue-demo",
-    "name": "Ligue Démo",
-    "type": "league",
-    "slots": 8,
-    "eligibility": { "league": "Ligue Démo" },
-    "tiers": [
-      { "name": "D", "minScore": 1000, "tokens": 5 },
-      { "name": "C", "minScore": 10000, "tokens": 15 },
-      { "name": "B", "minScore": 30000, "tokens": 30 },
-      { "name": "A", "minScore": 50000, "tokens": 50 },
-      { "name": "S", "minScore": 80000, "tokens": 75 }
-    ]
-  },
-  {
-    "id": "heros",
-    "name": "Héros",
-    "type": "special",
-    "slots": 3,
-    "eligibility": { "version": "Héros" },
-    "tiers": [
-      { "name": "D", "minScore": 5000, "tokens": 5 },
-      { "name": "C", "minScore": 15000, "tokens": 10 },
-      { "name": "B", "minScore": 25000, "tokens": 20 },
-      { "name": "S", "minScore": 40000, "tokens": 40 }
-    ]
-  }
+  {"id":"psg","name":"Paris Saint-Germain","type":"club","slots":5,"eligibility":{"club":"Paris Saint-Germain"},"tiers":[{"name":"D","minScore":1,"tokens":5},{"name":"C","minScore":5000,"tokens":15},{"name":"B","minScore":15000,"tokens":30},{"name":"A","minScore":35000,"tokens":50},{"name":"S","minScore":60000,"tokens":75}]},
+  {"id":"om","name":"Olympique de Marseille","type":"club","slots":5,"eligibility":{"club":"Olympique de Marseille"},"tiers":[{"name":"D","minScore":1,"tokens":5},{"name":"C","minScore":1500,"tokens":10},{"name":"B","minScore":3000,"tokens":20},{"name":"A","minScore":5000,"tokens":30},{"name":"S","minScore":8000,"tokens":45}]},
+  {"id":"ligue-1","name":"Ligue 1","type":"league","slots":8,"eligibility":{"league":"Ligue 1"},"tiers":[{"name":"D","minScore":1,"tokens":5},{"name":"C","minScore":10000,"tokens":15},{"name":"B","minScore":30000,"tokens":30},{"name":"A","minScore":55000,"tokens":50},{"name":"S","minScore":80000,"tokens":75}]},
+  {"id":"totw","name":"Équipe de la semaine","type":"special","slots":3,"eligibility":{"version":"TOTW"},"tiers":[{"name":"D","minScore":5000,"tokens":5},{"name":"C","minScore":15000,"tokens":10},{"name":"B","minScore":25000,"tokens":20},{"name":"S","minScore":40000,"tokens":40}]},
+  {"id":"icones","name":"ICÔNES","type":"special","slots":3,"eligibility":{"version":"ICÔNE"},"tiers":[{"name":"D","minScore":30000,"tokens":10},{"name":"C","minScore":60000,"tokens":20},{"name":"B","minScore":90000,"tokens":40},{"name":"S","minScore":120000,"tokens":80}]}
 ]

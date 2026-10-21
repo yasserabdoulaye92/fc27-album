@@ -1,5 +1,6 @@
 id;nom;type;emplacements;club;ligue;nation;version;D;C;B;A;S
-club-alpha;Club Alpha;club;5;Club Alpha;;;;500/5;8000/10;15000/15;25000/25;35000/40
-club-bravo;Club Bravo;club;5;Club Bravo;;;;500/5;5000/10;12000/20;25000/30;40000/45
-ligue-demo;Ligue Démo;ligue;8;;Ligue Démo;;;1000/5;10000/15;30000/30;50000/50;80000/75
-heros;Héros;special;3;;;;Héros;5000/5;15000/10;25000/20;;40000/40
+psg;Paris Saint-Germain;club;5;Paris Saint-Germain;;;;1/5;5000/15;15000/30;35000/50;60000/75
+om;Olympique de Marseille;club;5;Olympique de Marseille;;;;1/5;1500/10;3000/20;5000/30;8000/45
+ligue-1;Ligue 1;ligue;8;;Ligue 1;;;1/5;10000/15;30000/30;55000/50;80000/75
+totw;Équipe de la semaine;special;3;;;;TOTW;5000/5;15000/10;25000/20;;40000/40
+icones;ICÔNES;special;3;;;;ICÔNE;30000/10;60000/20;90000/40;;120000/80
